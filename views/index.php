@@ -33,7 +33,7 @@
 
         <div class="hero-buttons">
             <a href="#videos" class="btn btn-primary btn-lg">Comenzar Ahora</a>
-            <a href="#exercises" class="btn btn-outline btn-lg">Ver Demo</a>
+            <a href="#exercises" class="btn btn-outline btn-lg">Descargar curso completo</a>
         </div>
 
         <div class="hero-badge animate-pulse-glow">

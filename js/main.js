@@ -1,44 +1,67 @@
+// js/main.js (Versión Unificada con Animaciones y Funcionalidad Dinámica)
 
-// Global state
-let currentVideo = 0;
-let selectedAnswers = {};
-let userInputs = {};
-let showResults = {};
-let audioPlaying = null;
+// --- FUNCIONES DE AYUDA GLOBALES ---
 
-const videos = [
-    {
-        id: "dQw4w9WgXcQ",
-        title: "Lección 1: Saludos Básicos",
-        thumbnail: "/placeholder.svg?height=400&width=600"
-    },
-    {
-        id: "dQw4w9WgXcQ",
-        title: "Lección 2: Números del 1 al 10",
-        thumbnail: "/placeholder.svg?height=400&width=600"
-    },
-    {
-        id: "dQw4w9WgXcQ",
-        title: "Lección 3: Colores en Inglés",
-        thumbnail: "/placeholder.svg?height=400&width=600"
+/**
+ * Extrae el ID de un video de YouTube desde su URL.
+ */
+function getYouTubeID(url) {
+    if (!url) return null;
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : null;
+}
+
+/**
+ * Lee texto en voz alta usando la API del navegador.
+ */
+function speakText(text) {
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.4;
+        window.speechSynthesis.speak(utterance);
+    } else {
+        alert("Tu navegador no soporta la síntesis de voz.");
     }
-];
+}
 
-// Initialize page
-document.addEventListener('DOMContentLoaded', function () {
-    initializeIntersectionObserver();
-    initializeMouseMovement();
-    initializeVideoCarousel();
-    initializeExercises();
-    initializeSmoothScrolling();
-});
+/**
+ * Actualiza la interfaz de un carrusel de video con los datos de una lección.
+ */
+function updateCarouselUI(carouselElement, lesson) {
+    const videoTitle = carouselElement.querySelector('.video-title');
+    const videoContainer = carouselElement.querySelector('.videoContainer');
+    
+    videoTitle.textContent = lesson.title;
 
-// Intersection Observer for scroll animations
+    const thumbnail = document.createElement('img');
+    thumbnail.className = 'videoThumbnail';
+    const videoId = getYouTubeID(lesson.video_url || '');
+    thumbnail.src = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : '../img/videos.jpg';
+    thumbnail.alt = 'Video thumbnail';
+
+    const playBtn = document.createElement('button');
+    playBtn.className = 'play-button';
+    playBtn.innerHTML = '▶';
+
+    videoContainer.innerHTML = '';
+    videoContainer.append(thumbnail, playBtn);
+    videoContainer.dataset.videoUrl = lesson.video_url || '';
+}
+
+
+// --- INICIALIZACIÓN DE ANIMACIONES Y EFECTOS ---
+
+/**
+ * Activa animaciones en las secciones cuando aparecen en pantalla.
+ */
 function initializeIntersectionObserver() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('animate-lego-build');
+                entry.target.classList.add('animate-fade-in'); // Usaremos una animación más sutil
             }
         });
     }, { threshold: 0.1 });
@@ -47,150 +70,24 @@ function initializeIntersectionObserver() {
     sections.forEach(section => observer.observe(section));
 }
 
-// Mouse movement effect for floating shapes
+/**
+ * Mueve las formas flotantes del fondo según la posición del mouse.
+ */
 function initializeMouseMovement() {
     document.addEventListener('mousemove', (e) => {
         const shapes = document.querySelectorAll('.floating-shape');
         shapes.forEach((shape, index) => {
-            const rect = shape.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            const deltaX = (e.clientX - centerX) * 0.01;
-            const deltaY = (e.clientY - centerY) * 0.01;
-            shape.style.transform = `translate(${deltaX}px, ${deltaY}px) rotate(${index * 45}deg)`;
+            const speed = (index + 1) * 0.005;
+            const deltaX = (e.clientX - window.innerWidth / 2) * speed;
+            const deltaY = (e.clientY - window.innerHeight / 2) * speed;
+            shape.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
         });
     });
 }
 
-// Video carousel functionality
-function initializeVideoCarousel() {
-    const prevBtn = document.getElementById('prevVideo');
-    const nextBtn = document.getElementById('nextVideo');
-    const playBtn = document.getElementById('playButton');
-
-    prevBtn.addEventListener('click', () => {
-        if (currentVideo > 0) {
-            currentVideo--;
-            updateVideo();
-        }
-    });
-
-    nextBtn.addEventListener('click', () => {
-        if (currentVideo < videos.length - 1) {
-            currentVideo++;
-            updateVideo();
-        }
-    });
-
-    playBtn.addEventListener('click', () => {
-        playVideo();
-    });
-
-    updateVideo();
-}
-
-function updateVideo() {
-    const videoTitle = document.getElementById('videoTitle');
-    const videoThumbnail = document.getElementById('videoThumbnail');
-    const prevBtn = document.getElementById('prevVideo');
-    const nextBtn = document.getElementById('nextVideo');
-
-    videoTitle.textContent = videos[currentVideo].title;
-    videoThumbnail.src = videos[currentVideo].thumbnail;
-
-    prevBtn.disabled = currentVideo === 0;
-    nextBtn.disabled = currentVideo === videos.length - 1;
-
-    if (prevBtn.disabled) prevBtn.classList.add('disabled');
-    else prevBtn.classList.remove('disabled');
-
-    if (nextBtn.disabled) nextBtn.classList.add('disabled');
-    else nextBtn.classList.remove('disabled');
-}
-
-function playVideo() {
-    const videoContainer = document.getElementById('videoContainer');
-    const iframe = document.createElement('iframe');
-    iframe.className = 'video-iframe';
-    iframe.src = `https://www.youtube.com/embed/${videos[currentVideo].id}?autoplay=1`;
-    iframe.title = videos[currentVideo].title;
-    iframe.frameBorder = '0';
-    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-    iframe.allowFullscreen = true;
-
-    videoContainer.innerHTML = '';
-    videoContainer.appendChild(iframe);
-}
-
-// Exercise functionality
-function initializeExercises() {
-    // Initialize option buttons
-    document.querySelectorAll('.option-btn').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const exerciseId = this.closest('.exercise-card').querySelector('.exercise-options').id.replace('options', 'ex');
-            const answer = this.dataset.answer;
-
-            // Remove selected class from siblings
-            this.parentNode.querySelectorAll('.option-btn').forEach(sibling => {
-                sibling.classList.remove('selected');
-            });
-
-            // Add selected class to clicked button
-            this.classList.add('selected');
-
-            selectedAnswers[exerciseId] = answer;
-        });
-    });
-
-    // Initialize input fields
-    document.getElementById('input3').addEventListener('input', function () {
-        userInputs['ex3'] = this.value;
-    });
-
-    document.getElementById('input4').addEventListener('input', function () {
-        userInputs['ex4'] = this.value;
-    });
-
-    // Initialize audio buttons
-    document.getElementById('audioBtn1').addEventListener('click', () => playAudio('word1', 'audioBtn1', 'audioText1'));
-    document.getElementById('audioBtn4').addEventListener('click', () => playAudio('sentence1', 'audioBtn4', 'audioText4'));
-}
-
-function playAudio(audioId, btnId, textId) {
-    if (audioPlaying === audioId) return;
-
-    audioPlaying = audioId;
-    const btn = document.getElementById(btnId);
-    const text = document.getElementById(textId);
-
-    btn.disabled = true;
-    btn.classList.add('disabled');
-    text.textContent = 'Reproduciendo...';
-
-    // Simulate audio playback
-    setTimeout(() => {
-        audioPlaying = null;
-        btn.disabled = false;
-        btn.classList.remove('disabled');
-        text.textContent = audioId === 'word1' ? 'Escuchar palabra' : 'Escuchar frase';
-    }, 2000);
-}
-
-function checkAnswer(exerciseId, correctAnswer) {
-    const userAnswer = selectedAnswers[exerciseId] || userInputs[exerciseId];
-    const resultDiv = document.getElementById('result' + exerciseId.slice(-1));
-    const isCorrect = userAnswer && userAnswer.toLowerCase() === correctAnswer.toLowerCase();
-
-    resultDiv.classList.remove('hidden');
-    resultDiv.className = `exercise-result ${isCorrect ? 'correct' : 'incorrect'}`;
-    resultDiv.textContent = isCorrect
-        ? '¡Correcto! 🎉'
-        : `Incorrecto. La respuesta correcta es: ${correctAnswer}`;
-
-    showResults[exerciseId] = true;
-}
-
-// Smooth scrolling for navigation links
+/**
+ * Habilita el desplazamiento suave para los enlaces de anclaje (#).
+ */
 function initializeSmoothScrolling() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -205,3 +102,92 @@ function initializeSmoothScrolling() {
         });
     });
 }
+
+
+// --- LÓGICA PRINCIPAL DE LA APLICACIÓN ---
+
+document.addEventListener('DOMContentLoaded', function () {
+    // 1. Inicializar todos los efectos visuales y animaciones
+    initializeIntersectionObserver();
+    initializeMouseMovement();
+    initializeSmoothScrolling();
+
+    // 2. Configurar todos los eventos interactivos para el contenido dinámico
+    document.addEventListener('click', function(event) {
+        
+        // Clic en el contenedor de video para reproducir
+        const videoContainer = event.target.closest('.videoContainer');
+        if (videoContainer) {
+            const videoUrl = videoContainer.dataset.videoUrl;
+            if (!videoUrl) {
+                alert('No hay una URL de video definida para esta lección.');
+                return;
+            }
+            const videoId = getYouTubeID(videoUrl);
+            if (videoId) {
+                const iframe = document.createElement('iframe');
+                iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&mute=1`;
+                iframe.frameBorder = '0';
+                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                iframe.allowFullscreen = true;
+                videoContainer.innerHTML = '';
+                videoContainer.appendChild(iframe);
+            } else {
+                alert('La URL del video no es válida o no es de YouTube.');
+            }
+        }
+        
+        // Clic en un botón de opción de ejercicio
+        const optionButton = event.target.closest('.option-btn');
+        if (optionButton) {
+            optionButton.parentElement.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
+            optionButton.classList.add('selected');
+        }
+
+        // Clic en el botón de verificar ejercicio
+        const verifyButton = event.target.closest('.verify-btn');
+        if (verifyButton) {
+            const card = verifyButton.closest('.exercise-card');
+            const correctAnswer = verifyButton.dataset.correctAnswer.toLowerCase().trim();
+            const resultDiv = card.querySelector('.exercise-result');
+            let userAnswer = '';
+            const input = card.querySelector('.exercise-input');
+            const selectedOption = card.querySelector('.option-btn.selected');
+
+            if (input) userAnswer = input.value.toLowerCase().trim();
+            else if (selectedOption) userAnswer = selectedOption.textContent.toLowerCase().trim();
+            else {
+                alert('Por favor, selecciona una opción o escribe una respuesta.');
+                return;
+            }
+
+            resultDiv.classList.remove('hidden');
+            if (userAnswer === correctAnswer) {
+                resultDiv.textContent = '¡Correcto! 🎉';
+                resultDiv.style.color = 'green';
+            } else {
+                resultDiv.textContent = 'Intenta de nuevo.';
+                resultDiv.style.color = 'red';
+            }
+        }
+
+        // Clic en los botones de navegación del carrusel
+        const prevBtn = event.target.closest('.prevVideo');
+        const nextBtn = event.target.closest('.nextVideo');
+        if (prevBtn || nextBtn) {
+            const carousel = (prevBtn || nextBtn).closest('.video-carousel');
+            const levelId = carousel.dataset.levelId;
+            const levelData = courseData.find(level => level.id == levelId);
+            if (!levelData || !levelData.lessons.length) return;
+
+            const currentTitle = carousel.querySelector('.video-title').textContent;
+            let currentLessonIndex = levelData.lessons.findIndex(l => l.title === currentTitle);
+            if (currentLessonIndex === -1) currentLessonIndex = 0;
+
+            if (nextBtn) currentLessonIndex = (currentLessonIndex + 1) % levelData.lessons.length;
+            if (prevBtn) currentLessonIndex = (currentLessonIndex - 1 + levelData.lessons.length) % levelData.lessons.length;
+            
+            updateCarouselUI(carousel, levelData.lessons[currentLessonIndex]);
+        }
+    });
+});

@@ -14,10 +14,7 @@ if (!$lesson_id) {
     <title>Crear Nuevo Ejercicio</title>
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
     <style>
-        /* Estilo para ocultar campos por defecto */
-        .campo-opciones {
-            display: none;
-        }
+        .campo-opciones { display: none; }
     </style>
 </head>
 <body>
@@ -43,22 +40,20 @@ if (!$lesson_id) {
 
             <p>
                 <label for="question">Pregunta o Instrucción</label>
-                <input type="text" id="question" name="question" required placeholder="Ej: Traduce la palabra 'Manzana'">
+                <input type="text" id="question" name="question" required placeholder="Ej: Escribe la frase que escuches">
             </p>
 
             <div id="options-container" class="campo-opciones">
-                <label>Opciones de Respuesta (la primera es la correcta)</label>
+                <label>Opciones de Respuesta</label>
                 <input type="text" name="options[]" placeholder="Opción 1 (Respuesta Correcta)">
                 <input type="text" name="options[]" placeholder="Opción 2">
                 <input type="text" name="options[]" placeholder="Opción 3">
                 <input type="text" name="options[]" placeholder="Opción 4">
-                <small>Rellena las que necesites. La primera opción será considerada la respuesta correcta para este tipo de ejercicio.</small>
             </div>
 
             <p>
                 <label for="correct_answer">Respuesta Correcta</label>
-                <input type="text" id="correct_answer" name="correct_answer" required placeholder="Ej: Apple">
-                <small>Para "Escoger palabra" o "Completar frase", este campo se ignorará y se usará la primera opción de arriba.</small>
+                <input type="text" id="correct_answer" name="correct_answer" placeholder="Ej: The cat is on the table">
             </p>
             
             <button type="submit">Guardar Ejercicio</button>
@@ -70,17 +65,22 @@ if (!$lesson_id) {
             const exerciseType = document.getElementById('exercise_type').value;
             const optionsContainer = document.getElementById('options-container');
             const correctAnswerInput = document.getElementById('correct_answer');
+            const optionInputs = optionsContainer.querySelectorAll('input');
 
             if (exerciseType === 'choose_word' || exerciseType === 'complete_sentence') {
                 optionsContainer.style.display = 'block';
-                correctAnswerInput.parentElement.style.display = 'none'; // Ocultamos el campo de respuesta individual
+                correctAnswerInput.parentElement.style.display = 'none';
+                correctAnswerInput.required = false; // No es requerido
+                optionInputs[0].required = true; // La primera opción es requerida
             } else {
                 optionsContainer.style.display = 'none';
-                correctAnswerInput.parentElement.style.display = 'block'; // Mostramos el campo de respuesta individual
+                correctAnswerInput.parentElement.style.display = 'block';
+                correctAnswerInput.required = true; // Es requerido
+                optionInputs[0].required = false; // La primera opción ya no es requerida
             }
         }
         
-        // Llamamos a la función al cargar la página por si hay valores preseleccionados (útil para editar)
+        // Llamamos a la función al cargar la página
         toggleFields();
     </script>
 </body>
