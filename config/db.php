@@ -2,9 +2,9 @@
 
 // Configuración de la base de datos
 $host = 'localhost'; // O la dirección de tu servidor de base de datos
-$db_name = 'nombre_de_tu_bd'; // Reemplaza con el nombre de tu base de datos
-$username = 'usuario_de_tu_bd'; // Reemplaza con tu nombre de usuario de la BD
-$password = 'tu_contraseña'; // Reemplaza con tu contraseña
+$db_name = 'curso_ingles_db'; // Reemplaza con el nombre de tu base de datos
+$username = 'root'; // Reemplaza con tu nombre de usuario de la BD
+$password = ''; // Reemplaza con tu contraseña
 
 try {
     // Cadena de conexión (DSN)

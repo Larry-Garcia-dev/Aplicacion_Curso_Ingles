@@ -63,7 +63,7 @@
 
             <div class="video-card">
                 <div class="video-thumbnail" id="videoContainer">
-                    <img id="videoThumbnail" src="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" alt="Video thumbnail">
+                    <img id="videoThumbnail" src="../img/videos.jpg" alt="Video thumbnail">
                     <button class="play-button" id="playButton">▶</button>
                 </div>
             </div>
