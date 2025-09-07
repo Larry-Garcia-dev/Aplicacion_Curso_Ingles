@@ -1,30 +1,30 @@
 <?php
+// config/db.php
 
-// Configuración de la base de datos
-$host = 'localhost'; // O la dirección de tu servidor de base de datos
-$db_name = 'curso_ingles_db'; // Reemplaza con el nombre de tu base de datos
-$username = 'root'; // Reemplaza con tu nombre de usuario de la BD
-$password = ''; // Reemplaza con tu contraseña
+function conectarDB() {
+    // Configuración de la base de datos
+    $host = 'localhost';
+    $db_name = 'curso_ingles_db';
+    $username = 'root';
+    $password = '';
 
-try {
-    // Cadena de conexión (DSN)
-    $dsn = "mysql:host={$host};dbname={$db_name};charset=utf8mb4";
-    
-    // Opciones para la conexión
-    $options = [
-        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, // Manejo de errores
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,       // Modo de obtención por defecto
-        PDO::ATTR_EMULATE_PREPARES   => false,                  // Deshabilitar emulación de sentencias
-    ];
-    
-    // Crear una nueva instancia de PDO
-    $pdo = new PDO($dsn, $username, $password, $options);
-    
-    // Puedes descomentar la siguiente línea para probar si la conexión es exitosa
-    // echo "Conexión a la base de datos exitosa.";
+    try {
+        // Cadena de conexión (DSN) y creación de la instancia de PDO
+        $pdo = new PDO("mysql:host={$host};dbname={$db_name};charset=utf8mb4", $username, $password);
+        
+        // Configurar atributos de PDO para un manejo de errores robusto
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        
+        return $pdo;
 
-} catch (PDOException $e) {
-    // Si hay un error, muestra el mensaje de error de manera segura
-    throw new PDOException($e->getMessage(), (int)$e->getCode());
+    } catch (PDOException $e) {
+        // Si hay un error, no mostramos detalles sensibles en producción.
+        // Lo ideal sería registrar el error en un archivo de logs.
+        error_log('PDO Connection Error: ' . $e->getMessage());
+        // Mostramos un mensaje genérico al usuario.
+        exit('Hubo un error al conectar con la base de datos.');
+    }
 }
 ?>
