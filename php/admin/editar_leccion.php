@@ -1,5 +1,7 @@
 <?php
 // admin/editar_leccion.php
+require_once 'auth.php';
+
 require_once '../../config/db.php';
 
 // 1. Validar ID de la lección

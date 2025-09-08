@@ -1,6 +1,6 @@
 <?php
 // /curso/index.php (Controlador)
-
+require_once '../php/auth.php';
 require_once '../config/db.php';
 
 try {

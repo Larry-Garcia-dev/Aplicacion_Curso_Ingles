@@ -1,5 +1,6 @@
 <?php
 // admin/crear_nivel.php
+require_once 'auth.php';
 
 // Este archivo es principalmente HTML, pero podemos añadir lógica PHP aquí más adelante si es necesario.
 ?>

@@ -1,6 +1,6 @@
 <?php
 // admin/index.php (versión con PDO)
-
+require_once 'auth.php';
 require_once '../../config/db.php';
 
 // Obtenemos la conexión PDO
@@ -27,6 +27,9 @@ $stmt = $pdo->query($query);
     <header>
         <h1>Panel de Administración</h1>
         <p>Gestiona los niveles, lecciones y ejercicios del curso de inglés.</p>
+        <a href="../logout.php" class="logout-btn">
+                <span class="logout-icon">🚪</span> Cerrar Sesión
+            </a>
     </header>
 
     <main>

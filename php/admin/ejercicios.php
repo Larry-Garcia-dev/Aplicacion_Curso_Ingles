@@ -1,4 +1,6 @@
 <?php
+require_once 'auth.php';
+
 // admin/ejercicios.php
 require_once '../../config/db.php';
 

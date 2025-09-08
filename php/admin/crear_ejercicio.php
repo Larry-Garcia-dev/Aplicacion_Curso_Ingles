@@ -1,4 +1,6 @@
 <?php
+require_once 'auth.php';
+
 // admin/crear_ejercicio.php
 $lesson_id = filter_input(INPUT_GET, 'lesson_id', FILTER_VALIDATE_INT);
 if (!$lesson_id) {

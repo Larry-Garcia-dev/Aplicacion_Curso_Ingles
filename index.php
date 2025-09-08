@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello Casabianca</title>
     <link rel="stylesheet" href="css/styles.css">
+        <link rel="shortcut icon" href="../img/logo.png" type="image/x-icon">
+
 </head>
 <body>
     <!-- Toast Container -->
@@ -16,7 +18,7 @@
             <!-- Live Preview Badge -->
             <div class="live-badge">
                 <div class="live-dot"></div>
-                <span>Vista en Vivo</span>
+                <span>Hola</span>
             </div>
 
             <!-- Decorative Elements -->
@@ -89,28 +91,16 @@
 
                 <!-- Registration Form -->
                 <div class="form-container" data-form="registro">
-                    <form class="auth-form" id="registro-form">
+                    <form class="auth-form" id="registro-form"  action="php/login_register/register.php" method="POST" >
                         <div class="form-group">
                             <label for="registro-name">Nombre completo</label>
-                            <input 
-                                type="text" 
-                                id="registro-name" 
-                                name="name" 
-                                placeholder="Tu nombre completo"
-                                required
-                            >
+                            <input type="text" id="registro-name" name="name" placeholder="Tu nombre completo" required >
                             <div class="error-message" id="registro-name-error"></div>
                         </div>
 
                         <div class="form-group">
                             <label for="registro-phone">Teléfono</label>
-                            <input 
-                                type="tel" 
-                                id="registro-phone" 
-                                name="phone" 
-                                placeholder="+1234567890"
-                                required
-                            >
+                            <input  type="tel"  id="registro-phone"  name="phone"  placeholder="+1234567890" required >
                             <div class="error-message" id="registro-phone-error"></div>
                         </div>
 

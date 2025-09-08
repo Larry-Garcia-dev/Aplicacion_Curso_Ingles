@@ -1,5 +1,6 @@
 <?php
 // admin/crear_leccion.php
+require_once 'auth.php';
 
 // Validamos que el ID del nivel nos llegue correctamente
 $level_id = filter_input(INPUT_GET, 'level_id', FILTER_VALIDATE_INT);

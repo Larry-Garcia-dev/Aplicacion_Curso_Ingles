@@ -1,5 +1,7 @@
 <?php
 // admin/editar_nivel.php
+require_once 'auth.php';
+
 require_once '../../config/db.php';
 
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);

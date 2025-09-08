@@ -26,10 +26,11 @@ include '../views/header.php';
 </div>
 
 <!-- Header -->
+
 <header class="header">
     <nav class="nav container">
         <div>
-            <a href=""><img src="../img/logo.png" alt="Hello Casablanca English" class="logo"></a>
+            <a href="#"><img src="../img/logo.png" alt="Hello Casablanca English" class="logo"></a>
         </div>
         <div class="nav-links">
             <a href="#hero">Inicio</a>
@@ -38,6 +39,10 @@ include '../views/header.php';
                     <a href="#level-<?php echo $level['id']; ?>"><?php echo htmlspecialchars($level['title']); ?></a>
                 <?php endforeach; ?>
             <?php endif; ?>
+
+            <a href="../php/logout.php" class="logout-btn">
+                <span class="logout-icon">🚪</span> Cerrar Sesión
+            </a>
         </div>
     </nav>
 </header>

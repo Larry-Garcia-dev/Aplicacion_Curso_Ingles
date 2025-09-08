@@ -168,110 +168,157 @@ function initForms() {
 }
 
 // Login form submission
+// Login form submission
 async function handleLoginSubmit(event) {
-  event.preventDefault()
+  event.preventDefault();
 
-  const form = event.target
-  const formData = new FormData(form)
-  const phone = formData.get("phone")
-  const password = formData.get("password")
+  const form = event.target;
+  const formData = new FormData(form);
+  const phone = formData.get("phone");
+  const password = formData.get("password");
 
   // Clear previous errors
-  clearFormErrors(form)
+  clearFormErrors(form);
 
   // Validate fields
-  let hasErrors = false
+  let hasErrors = false;
 
   if (!validatePhone(phone)) {
-    showFieldError("login-phone-error", "Ingresa un número de teléfono válido")
-    hasErrors = true
+    showFieldError("login-phone-error", "Ingresa un número de teléfono válido");
+    hasErrors = true;
   }
 
   if (!password) {
-    showFieldError("login-password-error", "La contraseña es requerida")
-    hasErrors = true
+    showFieldError("login-password-error", "La contraseña es requerida");
+    hasErrors = true;
   }
 
   if (hasErrors) {
-    shakeForm(form)
-    return
+    shakeForm(form);
+    return;
   }
 
   // Show loading state
-  setFormLoading(form, true)
+  setFormLoading(form, true);
 
   try {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    // Hacemos la llamada real a nuestro script PHP
+    const response = await fetch('../php/login_register/login.php', {
+      method: 'POST',
+      body: formData
+    });
 
-    // Simulate success
-    showToast("¡Bienvenido! Has iniciado sesión correctamente.", "success")
+    // Convertimos la respuesta del servidor de JSON a un objeto
+    const result = await response.json();
+
+    if (result.success) {
+      // Si el login es exitoso...
+      showToast(result.message, "success");
+
+      // --- LÓGICA DE REDIRECCIÓN BASADA EN ROL ---
+      setTimeout(() => {
+        if (result.data.rol === 0) {
+          // Si el rol es 0 (Admin), redirigir al panel de administración
+          window.location.href = 'php/admin/';
+        } else {
+          // Para cualquier otro rol (Estudiante), redirigir al curso
+          window.location.href = 'curso/';
+        }
+      }, 1500); // Esperamos 1.5 segundos para que el usuario vea el mensaje
+
+    } else {
+      // Si el backend reporta un error (datos incorrectos), lo mostramos
+      showToast(result.message, "error");
+    }
+
   } catch (error) {
-    showToast("Error al iniciar sesión. Intenta nuevamente.", "error")
+    // Si hay un error de red o el JSON es inválido
+    console.error('Error en la petición de login:', error);
+    showToast("Error de conexión con el servidor.", "error");
   } finally {
-    setFormLoading(form, false)
+    // Ocultamos el spinner de carga, tanto en caso de éxito como de error
+    setFormLoading(form, false);
   }
 }
 
 // Registration form submission
 async function handleRegistroSubmit(event) {
-  event.preventDefault()
+  event.preventDefault();
 
-  const form = event.target
-  const formData = new FormData(form)
-  const name = formData.get("name")
-  const phone = formData.get("phone")
-  const password = formData.get("password")
+  const form = event.target;
+  const formData = new FormData(form);
+  const name = formData.get("name");
+  const phone = formData.get("phone");
+  const password = formData.get("password");
 
   // Clear previous errors
-  clearFormErrors(form)
+  clearFormErrors(form);
 
-  // Validate fields
-  let hasErrors = false
+  // Validate fields (Client-side validation)
+  let hasErrors = false;
 
   if (!name || name.trim().length < 2) {
-    showFieldError("registro-name-error", "Ingresa tu nombre completo")
-    hasErrors = true
+    showFieldError("registro-name-error", "Ingresa tu nombre completo");
+    hasErrors = true;
   }
 
   if (!validatePhone(phone)) {
-    showFieldError("registro-phone-error", "Ingresa un número de teléfono válido")
-    hasErrors = true
+    showFieldError("registro-phone-error", "Ingresa un número de teléfono válido");
+    hasErrors = true;
   }
 
   if (!validatePasswordComplete(password)) {
-    showFieldError("registro-password-error", "La contraseña debe cumplir todos los requisitos")
-    hasErrors = true
+    showFieldError("registro-password-error", "La contraseña debe cumplir todos los requisitos");
+    hasErrors = true;
   }
 
   if (hasErrors) {
-    shakeForm(form)
-    return
+    shakeForm(form);
+    return;
   }
 
   // Show loading state
-  setFormLoading(form, true)
+  setFormLoading(form, true);
 
+  // --- INICIO DEL CAMBIO: LLAMADA REAL AL BACKEND ---
   try {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2500))
+    // Hacemos la llamada real a nuestro script PHP usando fetch
+    const response = await fetch('../php/login_register/register.php', {
+      method: 'POST',
+      body: formData
+    });
 
-    // Simulate success
-    showToast("¡Cuenta creada exitosamente! Bienvenido a Hello Casabianca.", "success")
+    // Convertimos la respuesta del servidor de JSON a un objeto de JavaScript
+    const result = await response.json();
 
-    // Reset form
-    form.reset()
+    if (result.success) {
+      // Si el backend confirma que el registro fue exitoso...
+      showToast(result.message, "success");
+      form.reset();
 
-    // Reset password validation rules
-    const rules = document.querySelectorAll(".rule")
-    rules.forEach((rule) => rule.classList.remove("valid"))
+      // Reseteamos las reglas de validación visual de la contraseña
+      document.querySelectorAll(".rule").forEach((rule) => rule.classList.remove("valid"));
+
+      // Opcional: Redirigimos al usuario a la página del curso después de 2 segundos
+      setTimeout(() => {
+        window.location.href = 'curso/';
+      }, 2000);
+
+    } else {
+      // Si el backend reporta un error (ej: teléfono ya existe), lo mostramos
+      showToast(result.message, "error");
+    }
+
   } catch (error) {
-    showToast("Error al crear la cuenta. Intenta nuevamente.", "error")
+    // Este bloque se ejecuta si hay un error de red (ej: el servidor no responde)
+    console.error('Error en la petición de registro:', error);
+    showToast("Error de conexión. No se pudo contactar al servidor.", "error");
   } finally {
-    setFormLoading(form, false)
+    // Esto se ejecuta siempre, haya éxito o error, para ocultar el spinner de carga
+    setFormLoading(form, false);
   }
+  // --- FIN DEL CAMBIO ---
 }
-
 // Phone validation
 function validatePhone(phone) {
   if (!phone) return false
