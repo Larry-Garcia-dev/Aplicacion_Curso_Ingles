@@ -1,6 +1,6 @@
 <?php
 // admin/editar_leccion.php
-require_once '../config/db.php';
+require_once '../../config/db.php';
 
 // 1. Validar ID de la lección
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);

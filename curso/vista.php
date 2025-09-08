@@ -208,7 +208,7 @@ include '../views/header.php';
             <p>No hay niveles para mostrar resumen.</p>
         <?php endif; ?>
 
-        <a href="#hero" class="btn btn-lg" style="background: white; color: var(--primary);">Continuar con Nivel A2</a>
+        <a href="#hero" class="btn btn-lg" style="background: white; color: var(--primary);">Siguiente lección</a>
     </div>
 </section>
 
