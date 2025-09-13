@@ -6,8 +6,8 @@ function conectarDB() {
     $host = 'localhost';
     // ¡OJO! He notado un espacio al inicio del nombre de tu base de datos, lo he corregido.
     $db_name = 'hellrfnj_curso_ingles_db'; 
-    $username = 'root';
-    $password = '';
+    $username = 'hellrfnj_HelloCasabianca';
+    $password = 'w0~$OADj6Ptb';
     $charset = 'utf8mb4';
 
     try {
