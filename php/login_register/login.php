@@ -1,54 +1,64 @@
 <?php
-// php/login.php (Versión Corregida con el campo 'rol')
+// php/login_register/login.php (Versión con Redirección desde Backend)
 
 session_start();
-header('Content-Type: application/json');
 require_once '../../config/db.php';
 
-function json_response($success, $message, $data = []) {
-    echo json_encode(['success' => $success, 'message' => $message, 'data' => $data]);
-    exit;
-}
+// --- YA NO USAMOS RESPUESTAS JSON ---
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    json_response(false, 'Método no permitido');
+    // Si no es POST, redirigimos al inicio
+    header('Location: ../../index.php');
+    exit;
 }
 
 $phone = $_POST['phone'] ?? '';
 $password = $_POST['password'] ?? '';
 
 if (empty($phone) || empty($password)) {
-    json_response(false, 'El teléfono y la contraseña son obligatorios.');
+    // Si faltan datos, redirigimos de vuelta al inicio con un mensaje de error
+    header('Location: ../../index.php?error=empty_fields');
+    exit;
 }
 
 try {
     $pdo = conectarDB();
 
-    // CORRECCIÓN: Seleccionamos la columna 'rol'
     $sql = "SELECT id, name, password, rol FROM users WHERE phone_number = :phone";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([':phone' => $phone]);
     $user = $stmt->fetch();
 
     if ($user && password_verify($password, $user['password'])) {
+        // --- INICIO DE SESIÓN EXITOSO ---
         session_regenerate_id(true);
 
-        // CORRECCIÓN: Guardamos 'rol' en la sesión
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_name'] = $user['name'];
-        $_SESSION['user_rol'] = $user['rol']; // Usamos 'rol'
+        $_SESSION['user_rol'] = $user['rol'];
         $_SESSION['loggedin'] = true;
 
-        // CORRECCIÓN: Enviamos 'rol' en la respuesta JSON
-        json_response(true, '¡Bienvenido de nuevo, ' . htmlspecialchars($user['name']) . '!', [
-            'rol' => $user['rol'] // Usamos 'rol'
-        ]);
+        // --- LÓGICA DE REDIRECCIÓN BASADA EN EL ROL ---
+        if ($user['rol'] === 'admin') {
+            // Si es admin, lo mandamos al panel de administración
+            header('Location: ../admin/index.php');
+        } else {
+            // Si es cualquier otro rol (ej. 'user'), lo mandamos a la página del curso
+            header('Location: ../../curso/index.php');
+        }
+        exit; // Es crucial salir del script después de una redirección
+
     } else {
-        json_response(false, 'El número de teléfono o la contraseña son incorrectos.');
+        // --- FALLO EN EL INICIO DE SESIÓN ---
+        // Contraseña o usuario incorrecto, redirigimos con un error
+        header('Location: ../../index.php?error=invalid_credentials');
+        exit;
     }
 
 } catch (PDOException $e) {
     error_log('Error en login: ' . $e->getMessage());
-    json_response(false, 'Error interno del servidor.');
+    // Error del servidor, redirigimos con un error genérico
+    header('Location: ../../index.php?error=server_error');
+    exit;
 }
 ?>

@@ -54,7 +54,7 @@
 
                 <!-- Login Form -->
                 <div class="form-container active" data-form="login">
-                    <form class="auth-form" id="login-form">
+                    <form class="auth-form" id="login-form" action="php/login_register/login.php" method="POST" >
                         <div class="form-group">
                             <label for="login-phone">Teléfono</label>
                             <input 
