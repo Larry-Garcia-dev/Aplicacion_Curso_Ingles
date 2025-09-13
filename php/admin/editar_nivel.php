@@ -45,7 +45,13 @@ $summary_points = $level['summary_points'] ? json_decode($level['summary_points'
 
             <p>
                 <label for="title">Título del Nivel</label>
-                <input type="text" id="title" name="title" required value="<?php echo htmlspecialchars($level['title']); ?>">
+                <!-- <input type="text" id="title" name="title" required value="<?php echo htmlspecialchars($level['title']); ?>"> -->
+                <textarea rows="3" name="title" id="title"><?php echo htmlspecialchars($level['title']); ?></textarea>
+            </p>
+            <p>
+                <label for="title">Traduccion</label>
+                <!-- <input type="text" id="title" name="Traduccion" required value="<?php echo htmlspecialchars($level['Traduccion']); ?>"> -->
+                <textarea  rows="3" name="Traduccion" id=""><?php echo htmlspecialchars($level['Traduccion']); ?></textarea>
             </p>
             <p>
                 <label for="level_order">Número de Orden</label>

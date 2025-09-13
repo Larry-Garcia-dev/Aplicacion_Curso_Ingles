@@ -248,10 +248,62 @@ body {
 
 /* Hero Section */
 .hero {
-    padding: 8rem 1rem 4rem;
+    padding: 4rem 1rem; /* Ajustado el padding general */
     text-align: center;
     position: relative;
     z-index: 10;
+    overflow: hidden; /* Para manejar cualquier desbordamiento de la imagen */
+}
+
+.hero .container {
+    max-width: 1200px; /* Ancho máximo del contenedor */
+    margin: 0 auto;
+}
+
+.hero-content-wrapper {
+    display: flex;
+    flex-direction: column; /* Por defecto en móvil: imagen arriba, texto abajo */
+    align-items: center;
+    gap: 2rem; /* Espacio entre la imagen y el texto */
+}
+
+@media (min-width: 992px) { /* A partir de pantallas de escritorio */
+    .hero-content-wrapper {
+        flex-direction: row; /* En escritorio: imagen a la izquierda, texto a la derecha */
+        text-align: left; /* Alineación del texto a la izquierda en escritorio */
+        align-items: center; /* Centrar verticalmente los elementos */
+    }
+}
+
+.hero-image-container {
+    flex: 1; /* La imagen ocupará el espacio disponible */
+    max-width: 100%; /* Asegura que la imagen no se desborde en móvil */
+}
+
+@media (min-width: 992px) {
+    .hero-image-container {
+        flex: 1; /* La imagen ocupará la mitad izquierda */
+        padding-right: 2rem; /* Espacio entre la imagen y el texto */
+    }
+}
+
+.hero-main-image {
+    max-width: 100%;
+    height: auto;
+    display: block; /* Elimina espacio extra debajo de la imagen */
+    border-radius: 0.75rem; /* Opcional: bordes redondeados para la imagen */
+    /* box-shadow: 0 10px 20px rgba(0,0,0,0.1); Opcional: sombra para la imagen */
+}
+
+.hero-text-content {
+    flex: 1; /* El texto ocupará el espacio disponible */
+    max-width: 100%; /* Asegura que el texto no se desborde en móvil */
+}
+
+@media (min-width: 992px) {
+    .hero-text-content {
+        flex: 1; /* El texto ocupará la mitad derecha */
+    }
 }
 
 .hero h1 {
@@ -267,15 +319,16 @@ body {
 
 @media (min-width: 768px) {
     .hero h1 {
-        font-size: 4.5rem;
+        font-size: 3.5rem;
     }
 }
 
+/* Ajuste para menos líneas de texto */
 .hero p {
     font-size: 1.25rem;
     color: #6B7280;
-    margin-bottom: 2rem;
-    max-width: 800px;
+    margin-bottom: 1.5rem; /* Reducido el margen inferior para el texto */
+    max-width: 600px; /* Ancho máximo para el párrafo para que no se extienda demasiado */
     margin-left: auto;
     margin-right: auto;
 }
@@ -283,6 +336,13 @@ body {
 @media (min-width: 768px) {
     .hero p {
         font-size: 1.5rem;
+    }
+}
+
+@media (min-width: 992px) {
+    .hero p {
+        margin-left: 0; /* Alinea el párrafo a la izquierda en escritorio */
+        margin-right: auto;
     }
 }
 
@@ -301,6 +361,12 @@ body {
     }
 }
 
+@media (min-width: 992px) {
+    .hero-buttons {
+        justify-content: flex-start; /* Alinea los botones a la izquierda en escritorio */
+    }
+}
+
 .hero-badge {
     display: inline-flex;
     align-items: center;
@@ -310,44 +376,71 @@ body {
     padding: 0.75rem 1.5rem;
     border-radius: 2rem;
     font-weight: 600;
+    margin-top: 1rem; /* Espacio encima del badge */
 }
 
-.hero-illustration {
-    margin-top: 4rem;
-    position: relative;
+@media (min-width: 992px) {
+    .hero-badge {
+        margin-left: 0; /* Alinea el badge a la izquierda en escritorio */
+        margin-right: auto;
+    }
 }
 
-.hero-circle {
-    width: 16rem;
-    height: 16rem;
-    margin: 0 auto;
-    background: var(--gradient-purple);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 4rem;
-    animation: float 6s ease-in-out infinite;
+
+/* Aquí puedes añadir tus variables CSS si las usas */
+:root {
+    --gradient-purple: linear-gradient(135deg, #7F00FF 0%, #E100FF 100%);
 }
 
-.hero-emoji {
-    position: absolute;
-    font-size: 2rem;
+/* Clases de botones de ejemplo */
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.hero-emoji:nth-child(2) {
-    top: 2.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    animation: float-rotate 8s ease-in-out infinite;
+.btn-primary {
+    background-color: #7F00FF;
+    color: white;
+    border: 1px solid #7F00FF;
 }
 
-.hero-emoji:nth-child(3) {
-    bottom: 2.5rem;
-    right: 25%;
-    animation: float 7s ease-in-out infinite;
+.btn-primary:hover {
+    background-color: #E100FF;
+    border-color: #E100FF;
 }
 
+.btn-outline {
+    background-color: transparent;
+    color: #7F00FF;
+    border: 1px solid #7F00FF;
+}
+
+.btn-outline:hover {
+    background-color: #7F00FF;
+    color: white;
+}
+
+.btn-lg {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+}
+
+/* Animación para el badge */
+@keyframes animate-pulse-glow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+    }
+}
+
+.animate-pulse-glow {
+    animation: animate-pulse-glow 2s infinite;
+}
 /* Section Styles */
 .section {
     padding: 4rem 1rem;

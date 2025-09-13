@@ -26,7 +26,7 @@ $stmt = $pdo->query($query);
 <body>
     <header>
         <h1>Panel de Administración</h1>
-        <p>Gestiona los niveles, lecciones y ejercicios del curso de inglés.</p>
+        <p>Gestiona las lecciones y ejercicios del curso de inglés.</p>
         <a href="../logout.php" class="logout-btn">
                 <span class="logout-icon">🚪</span> Cerrar Sesión
             </a>
@@ -34,7 +34,7 @@ $stmt = $pdo->query($query);
 
     <main>
         <h2>Niveles del Curso</h2>
-        <a href="crear_nivel.php" class="button">Crear Nuevo Nivel</a>
+        <a href="crear_nivel.php" class="button">Crear Nuevo leccion</a>
 
         <table>
             <thead>

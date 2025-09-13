@@ -45,43 +45,46 @@ include '../views/header.php';
             </a>
         </div>
     </nav>
-</header>
 
+</header>
+<br>
 <!-- Hero Section -->
 <section id="hero" class="hero">
-    <div class="container">
-        <?php if ($first_level): ?>
-            <h1><?php echo htmlspecialchars($first_level['title']); ?></h1>
-            <p><?php echo htmlspecialchars($first_level['description']); ?></p>
-        <?php else: ?>
-            <h1>Próximamente</h1>
-            <p>Estamos preparando el contenido del curso.</p>
-        <?php endif; ?>
+    <div class="container hero-content-wrapper">
+        <div class="hero-image-container">
+            <img src="../img/banners.jpg" alt="Ilustración del curso" class="hero-main-image">
+        </div>
 
-        <div class="hero-buttons">
+        <div class="hero-text-content">
             <?php if ($first_level): ?>
-                <a href="#level-<?php echo $first_level['id']; ?>" class="btn btn-primary btn-lg">Comenzar Ahora</a>
+                <h1><?php echo htmlspecialchars($first_level['title']); ?></h1>
+                <h3 class="subtitle"><?php echo htmlspecialchars($first_level['Traduccion']); ?></h3>
+                <br>
+                <p><?php echo htmlspecialchars($first_level['description']); ?></p>
+            <?php else: ?>
+                <h1>Próximamente</h1>
+                <p>Estamos preparando el contenido del curso.</p>
             <?php endif; ?>
-            <a href="#exercises" class="btn btn-outline btn-lg">Descargar curso completo</a>
-        </div>
 
-        <!-- <div class="hero-badge animate-pulse-glow">
-            <span>✓</span>
-            <span>100% Gratis</span>
-        </div>
+            <div class="hero-buttons">
+                <?php if ($first_level): ?>
+                    <a href="#level-<?php echo $first_level['id']; ?>" class="btn btn-primary btn-lg">Comenzar Ahora</a>
+                <?php endif; ?>
+                <!-- <a href="#exercises" class="btn btn-outline btn-lg">Descargar curso completo</a> -->
+            </div>
 
-        <div class="hero-illustration">
-            <div class="hero-circle">🎧</div>
-            <div class="hero-emoji">🎵</div>
-            <div class="hero-emoji">📚</div>
-        </div> -->
+            <!-- <div class="hero-badge animate-pulse-glow">
+                <span>✓</span>
+                <span>100% Gratis</span>
+            </div> -->
+        </div>
     </div>
 </section>
 
 <!-- Video Carousel Section (dinámico por nivel) -->
 <section id="videos" class="section section-muted">
     <div class="container">
-        <h2>Lecciones en Video </h2>
+        <h2> Video <?php echo htmlspecialchars($first_level['title']); ?> </h2>
 
         <?php if (!empty($course_data)): ?>
             <?php foreach ($course_data as $level): ?>
@@ -114,8 +117,6 @@ include '../views/header.php';
 <section id="exercises" class="section">
     <div class="container">
         <h2>Práctica y Ejercicios Interactivos</h2>
-        <h3>Ejercicios faciles xd</h3>
-
         <?php if (!empty($course_data)): ?>
             <?php foreach ($course_data as $level): ?>
                 <?php

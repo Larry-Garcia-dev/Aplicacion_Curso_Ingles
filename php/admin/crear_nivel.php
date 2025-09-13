@@ -26,6 +26,10 @@ require_once 'auth.php';
                 <label for="title">Título del Nivel</label>
                 <input type="text" id="title" name="title" required placeholder="Ej: Nivel 1: Saludos y Presentaciones">
             </p>
+             <p>
+                <label for="title">Traduccion del titulo</label>
+                <input type="text" id="title" name="traduccion" required placeholder="Traduccion del titulo">
+            </p>
             <p>
                 <label for="level_order">Número de Orden</label>
                 <input type="number" id="level_order" name="level_order" required placeholder="Ej: 1">

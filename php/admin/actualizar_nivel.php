@@ -7,6 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
     $level_order = filter_input(INPUT_POST, 'level_order', FILTER_VALIDATE_INT);
     $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
+    $Traduccion = filter_input(INPUT_POST, 'Traduccion', FILTER_SANITIZE_STRING);
 
     $summary_raw = $_POST['summary'] ?? [];
     $summary_points_clean = [];
@@ -26,11 +27,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         $pdo = conectarDB();
-        $sql = "UPDATE levels SET title = :title, level_order = :level_order, description = :description, summary_points = :summary_points WHERE id = :id";
+        $sql = "UPDATE levels SET title = :title, Traduccion = :Traduccion, level_order = :level_order, description = :description, summary_points = :summary_points WHERE id = :id";
         
         $stmt = $pdo->prepare($sql);
 
         $stmt->bindParam(':title', $title, PDO::PARAM_STR);
+        $stmt->bindParam(':Traduccion', $Traduccion, PDO::PARAM_STR);
         $stmt->bindParam(':level_order', $level_order, PDO::PARAM_INT);
         $stmt->bindParam(':description', $description, PDO::PARAM_STR);
         $stmt->bindParam(':summary_points', $summary_json, PDO::PARAM_STR);

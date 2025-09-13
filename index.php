@@ -18,7 +18,7 @@
             <!-- Live Preview Badge -->
             <div class="live-badge">
                 <div class="live-dot"></div>
-                <span>Hola</span>
+                <span>Hola/Hello</span>
             </div>
 
             <!-- Decorative Elements -->
@@ -43,10 +43,12 @@
 
         <!-- Auth Section (30%) -->
         <section class="auth">
+            
             <div class="auth-container">
+                <img src="img/logo_ft.png" alt="" style=" width: 150%; margin-left: -22%;"  >
                 <!-- Tab Navigation -->
                 <div class="auth-tabs">
-                    <button class="tab-button active" data-tab="login">Login</button>
+                    <button class="tab-button active" data-tab="login">Inicio de Sesión</button>
                     <button class="tab-button" data-tab="registro">Registro</button>
                 </div>
 
@@ -155,5 +157,6 @@
     </main>
 
     <script src="js/app.js"></script>
+    <?php //include 'views/footer.php'; ?>
 </body>
 </html>
