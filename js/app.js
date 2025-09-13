@@ -219,7 +219,7 @@ async function handleLoginSubmit(event) {
       setTimeout(() => {
         if (result.data.rol === 0) {
           // Si el rol es 0 (Admin), redirigir al panel de administración
-          window.location.href = 'php/admin/';
+          window.location.href = '../php/admin/';
         } else {
           // Para cualquier otro rol (Estudiante), redirigir al curso
           window.location.href = 'curso/';
