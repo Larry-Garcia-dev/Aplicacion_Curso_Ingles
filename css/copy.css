@@ -366,15 +366,15 @@ body::after {
   transform: translateX(20px);
   pointer-events: none;
   transition: all 0.4s ease;
-  display: none;
+  position: absolute;
   width: 100%;
 }
 
 .form-container.active {
+  display: block;
   opacity: 1;
   transform: translateX(0);
   pointer-events: all;
-  display: block;
   position: relative;
 }
 

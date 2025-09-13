@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello Casabianca</title>
     <link rel="stylesheet" href="css/styles.css">
-        <link rel="shortcut icon" href="../img/logo.png" type="image/x-icon">
+    <!-- <link rel="stylesheet" href="../css/main.css"> -->
+    <link rel="shortcut icon" href="../img/logo.png" type="image/x-icon">
 
 </head>
+
 <body>
     <!-- Toast Container -->
     <div id="toast-container" class="toast-container" aria-live="polite"></div>
@@ -35,7 +38,7 @@
             <div class="hero-content">
                 <h1 class="hero-title">Hello Casabianca</h1>
                 <p class="hero-description">
-                    Bienvenido a nuestra plataforma de aprendizaje de inglés. 
+                    Bienvenido a nuestra plataforma de aprendizaje de inglés.
                     Descubre una nueva forma de dominar el idioma con tecnología avanzada.
                 </p>
             </div>
@@ -43,9 +46,9 @@
 
         <!-- Auth Section (30%) -->
         <section class="auth">
-            
+
             <div class="auth-container">
-                <img src="img/logo_ft.png" alt="" style=" width: 150%; margin-left: -22%;"  >
+                <img src="img/logo_ft.png" alt="" style=" width: 150%; margin-left: -22%;">
                 <!-- Tab Navigation -->
                 <div class="auth-tabs">
                     <button class="tab-button active" data-tab="login">Inicio de Sesión</button>
@@ -54,10 +57,10 @@
 
                 <!-- Login Form -->
                 <div class="form-container active" data-form="login">
-                    <form class="auth-form" id="#" action="php/login_register/login.php" method="POST" >
+                    <form class="auth-form" id="#" action="php/login_register/login.php" method="POST">
                         <div class="form-group">
                             <label for="login-phone">Teléfono</label>
-                            <input type="tel" id="login-phone" name="phone" placeholder="+1234567890"required>
+                            <input type="tel" id="login-phone" name="phone" placeholder="+1234567890" required>
                             <div class="error-message" id="login-phone-error"></div>
                         </div>
 
@@ -81,29 +84,28 @@
 
                 <!-- Registration Form -->
                 <div class="form-container" data-form="registro">
-                    <form class="auth-form" id="registro-form"  action="php/login_register/register.php" method="POST" >
+                    <form class="auth-form" id="registro-form" action="php/login_register/register.php" method="POST">
                         <div class="form-group">
                             <label for="registro-name">Nombre completo</label>
-                            <input type="text" id="registro-name" name="name" placeholder="Tu nombre completo" required >
+                            <input type="text" id="registro-name" name="name" placeholder="Tu nombre completo" required>
                             <div class="error-message" id="registro-name-error"></div>
                         </div>
 
                         <div class="form-group">
                             <label for="registro-phone">Teléfono</label>
-                            <input  type="tel"  id="registro-phone"  name="phone"  placeholder="+1234567890" required >
+                            <input type="tel" id="registro-phone" name="phone" placeholder="+1234567890" required>
                             <div class="error-message" id="registro-phone-error"></div>
                         </div>
 
                         <div class="form-group">
                             <label for="registro-password">Contraseña</label>
                             <div class="password-input-container">
-                                <input 
-                                    type="password" 
-                                    id="registro-password" 
-                                    name="password" 
+                                <input
+                                    type="password"
+                                    id="registro-password"
+                                    name="password"
                                     placeholder="Tu contraseña"
-                                    required
-                                >
+                                    required>
                                 <button type="button" class="toggle-password" data-target="registro-password">
                                     <span class="toggle-text">Mostrar</span>
                                 </button>
@@ -147,4 +149,5 @@
     <script src="js/app.js"></script>
     <?php include 'views/footer.php'; ?>
 </body>
+
 </html>
