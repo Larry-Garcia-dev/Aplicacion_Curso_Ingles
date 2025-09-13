@@ -5,8 +5,8 @@ function conectarDB() {
     // Configuración de la base de datos
     $host = 'localhost';
     $db_name = 'hellrfnj_curso_ingles_db';
-    $username = 'root';
-    $password = '';
+    $username = 'hellrfnj_HelloCasabianca';
+    $password = 'w0~$OADj6Ptb';
 
     try {
         // Cadena de conexión (DSN) y creación de la instancia de PDO
