@@ -18,7 +18,7 @@
             <!-- Live Preview Badge -->
             <div class="live-badge">
                 <div class="live-dot"></div>
-                <span>Hola/Hello</span>
+                <span>Hola/Hello V1</span>
             </div>
 
             <!-- Decorative Elements -->
