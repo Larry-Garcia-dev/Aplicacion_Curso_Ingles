@@ -1,51 +1,40 @@
 <?php
-// admin/guardar_nivel.php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    require_once '../../config/db.php';
+// admin/eliminar_nivel.php
+require_once 'auth.php'; // Asegura que solo administradores puedan acceder
+require_once '../../config/db.php';
 
-    $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
-    $level_order = filter_input(INPUT_POST, 'level_order', FILTER_VALIDATE_INT);
-    $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
-
-    $summary_raw = $_POST['summary'] ?? [];
-    $summary_points_clean = [];
-    foreach ($summary_raw as $point) {
-        if (!empty(trim($point['title'])) && !empty(trim($point['desc']))) {
-            $summary_points_clean[] = [
-                'title' => filter_var(trim($point['title']), FILTER_SANITIZE_STRING),
-                'desc' => filter_var(trim($point['desc']), FILTER_SANITIZE_STRING)
-            ];
-        }
-    }
-    $summary_json = !empty($summary_points_clean) ? json_encode($summary_points_clean) : null;
-
-    if (!$title || $level_order === false) {
-        exit('Error: El título y el número de orden son obligatorios.');
-    }
+// 1. Validar que se recibió un ID y es un número entero
+if (isset($_GET['id']) && filter_var($_GET['id'], FILTER_VALIDATE_INT)) {
+    $id = $_GET['id'];
 
     try {
         $pdo = conectarDB();
-        $sql = "INSERT INTO levels (title, level_order, description, summary_points) VALUES (:title, :level_order, :description, :summary_points)";
+
+        // 2. Preparar la consulta SQL para eliminar
+        // La tabla 'levels' tiene una clave foránea con 'ON DELETE CASCADE'
+        // por lo que al eliminar un nivel, sus puntos de resumen también se borrarán.
+        $sql = "DELETE FROM levels WHERE id = :id";
         $stmt = $pdo->prepare($sql);
 
-        $stmt->bindParam(':title', $title, PDO::PARAM_STR);
-        $stmt->bindParam(':level_order', $level_order, PDO::PARAM_INT);
-        $stmt->bindParam(':description', $description, PDO::PARAM_STR);
-        $stmt->bindParam(':summary_points', $summary_json, PDO::PARAM_STR);
+        // 3. Vincular el ID y ejecutar la consulta
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
-        header('Location: index.php');
+        // 4. Redirigir de vuelta al índice del admin
+        header('Location: index.php?status=deleted');
         exit;
+
     } catch (PDOException $e) {
-        if ($e->getCode() == 23000) {
-            exit('Error: El número de orden (' . htmlspecialchars($level_order) . ') ya existe.');
-        } else {
-            error_log('PDO Error al guardar nivel: ' . $e->getMessage());
-            exit('Ocurrió un error al guardar el nivel.');
-        }
+        // Manejo de errores
+        error_log('PDO Error al eliminar nivel: ' . $e->getMessage());
+        // Redirigir con un mensaje de error
+        header('Location: index.php?status=error');
+        exit;
+    } finally {
+        $pdo = null;
     }
 } else {
-    header('Location: index.php');
+    // Si no se proporciona un ID válido, redirigir
+    header('Location: index.php?status=invalid_id');
     exit;
 }
-?>

@@ -27,9 +27,10 @@ $stmt = $pdo->query($query);
     <header>
         <h1>Panel de Administración</h1>
         <p>Gestiona las lecciones y ejercicios del curso de inglés.</p>
+        <p>Por favor edita los cursos no los borres,</p>
         <a href="../logout.php" class="logout-btn">
-                <span class="logout-icon">🚪</span> Cerrar Sesión
-            </a>
+            <span class="logout-icon">🚪</span> Cerrar Sesión
+        </a>
     </header>
 
     <main>
@@ -53,11 +54,11 @@ $stmt = $pdo->query($query);
                         <td><?php echo htmlspecialchars($level['level_order']); ?></td>
                         <td><?php echo htmlspecialchars($level['title']); ?></td>
                         <td>
-                            <a href="editar_nivel.php?id=<?php echo $level['id']; ?>">Editar</a>
+                            <a class="button" style="background-color: #1898eeff;" href="editar_nivel.php?id=<?php echo $level['id']; ?>">Editar</a>
 
                             <form action="eliminar_nivel.php" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este nivel? Esta acción no se puede deshacer.');">
                                 <input type="hidden" name="id" value="<?php echo $level['id']; ?>">
-                                <button type="submit" style="background-color: #d9534f; color: white; border: none; padding: 8px 12px; cursor: pointer;">Eliminar</button>
+                                <a class="button" style="background-color: #e00d0dff;" href="eliminar_nivel.php?id=<?php echo $level['id']; ?>" onclick="return confirm('¿Estás seguro de que quieres eliminar este nivel?');">Eliminar</a>
                             </form>
                             <a href="lecciones.php?level_id=<?php echo $level['id']; ?>&level_title=<?php echo urlencode($level['title']); ?>" class="button" style="background-color: #5cb85c;">Ver Lecciones</a>
                         </td>

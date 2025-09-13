@@ -57,14 +57,14 @@ include '../views/header.php';
 
     <section id="videos" class="section section-muted">
         <div class="container">
-            <h2>Video de la Lección</h2>
+            <h2>Video de la Lección: <?php echo htmlspecialchars($level_data['title']); ?></h2>
             <?php if ($has_lessons): ?>
                 <div class="video-carousel" data-level-id="<?php echo $level_data['id']; ?>">
-                    <div class="video-controls">
+                    <!-- <div class="video-controls">
                         <button class="btn btn-outline btn-icon prevVideo">‹</button>
-                        <h3 class="video-title"><?php echo htmlspecialchars($first_lesson['title']); ?></h3>
+                        <h3 class="video-title"><?php //echo htmlspecialchars($first_lesson['title']); ?></h3>
                         <button class="btn btn-outline btn-icon nextVideo">›</button>
-                    </div>
+                    </div> -->
                     <div class="video-thumbnail videoContainer" data-video-url="<?php echo htmlspecialchars($first_lesson['video_url']); ?>">
                         <img class="videoThumbnail" src="../img/videos.jpg" alt="Video thumbnail">
                         <button class="play-button">▶</button>
