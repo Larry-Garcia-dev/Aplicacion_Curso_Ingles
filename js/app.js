@@ -168,78 +168,57 @@ function initForms() {
 }
 
 // Login form submission
-// Login form submission
-async function handleLoginSubmit(event) {
-  event.preventDefault();
+// Función para manejar el envío del formulario de login
+function handleLoginSubmit(event) {
+    const form = event.target;
+    const formData = new FormData(form);
+    const phone = formData.get("phone");
+    const password = formData.get("password");
 
-  const form = event.target;
-  const formData = new FormData(form);
-  const phone = formData.get("phone");
-  const password = formData.get("password");
+    // Limpiar errores previos
+    clearFormErrors(form);
 
-  // Clear previous errors
-  clearFormErrors(form);
+    // Validar los campos
+    let hasErrors = false;
 
-  // Validate fields
-  let hasErrors = false;
-
-  if (!validatePhone(phone)) {
-    showFieldError("login-phone-error", "Ingresa un número de teléfono válido");
-    hasErrors = true;
-  }
-
-  if (!password) {
-    showFieldError("login-password-error", "La contraseña es requerida");
-    hasErrors = true;
-  }
-
-  if (hasErrors) {
-    shakeForm(form);
-    return;
-  }
-
-  // Show loading state
-  setFormLoading(form, true);
-
-  try {
-    // Hacemos la llamada real a nuestro script PHP
-    const response = await fetch('../php/login_register/login.php', {
-      method: 'POST',
-      body: formData
-    });
-
-    // Convertimos la respuesta del servidor de JSON a un objeto
-    const result = await response.json();
-
-    if (result.success) {
-      // Si el login es exitoso...
-      showToast(result.message, "success");
-
-      // --- LÓGICA DE REDIRECCIÓN BASADA EN ROL ---
-      setTimeout(() => {
-        if (result.data.rol === 0) {
-          // Si el rol es 0 (Admin), redirigir al panel de administración
-          window.location.href = '../php/admin/';
-        } else {
-          // Para cualquier otro rol (Estudiante), redirigir al curso
-          window.location.href = 'curso/';
-        }
-      }, 1500); // Esperamos 1.5 segundos para que el usuario vea el mensaje
-
-    } else {
-      // Si el backend reporta un error (datos incorrectos), lo mostramos
-      showToast(result.message, "error");
+    // Validación del teléfono
+    if (!validatePhone(phone)) {
+        showFieldError("login-phone-error", "Ingresa un número de teléfono válido");
+        hasErrors = true;
     }
 
-  } catch (error) {
-    // Si hay un error de red o el JSON es inválido
-    console.error('Error en la petición de login:', error);
-    showToast("Error de conexión con el servidor.", "error");
-  } finally {
-    // Ocultamos el spinner de carga, tanto en caso de éxito como de error
-    setFormLoading(form, false);
-  }
+    // Validación de la contraseña
+    if (!password) {
+        showFieldError("login-password-error", "La contraseña es requerida");
+        hasErrors = true;
+    }
+
+    // --- Decisión Clave ---
+    // Si se encontraron errores durante la validación...
+    if (hasErrors) {
+        // 1. Prevenimos que el formulario se envíe al servidor
+        event.preventDefault(); 
+        
+        // 2. (Opcional) Mostramos una animación para notificar al usuario
+        shakeForm(form);
+    }
+    
+    // Si no hay errores (hasErrors es false), la función termina y el formulario
+    // se envía de forma normal, permitiendo que el backend de PHP haga la redirección.
 }
+
+// Asegúrate de vincular esta función al evento 'submit' de tu formulario
+const loginForm = document.getElementById('loginForm'); // Asegúrate de que tu form tenga id="loginForm"
+if (loginForm) {
+    loginForm.addEventListener('submit', handleLoginSubmit);
+}
+
+/* Recuerda que también necesitas las funciones auxiliares que ya tenías:
+   - clearFormErrors(form)
+   - showFieldError(elementId, message)
+   - validatePhone(phone)
+   - shakeForm(form)
+*/
 
 // Registration form submission
 async function handleRegistroSubmit(event) {
