@@ -33,7 +33,7 @@ function speakText(text) {
 function updateCarouselUI(carouselElement, lesson) {
     const videoTitle = carouselElement.querySelector('.video-title');
     const videoContainer = carouselElement.querySelector('.videoContainer');
-    
+
     videoTitle.textContent = lesson.title;
 
     const thumbnail = document.createElement('img');
@@ -113,8 +113,8 @@ document.addEventListener('DOMContentLoaded', function () {
     initializeSmoothScrolling();
 
     // 2. Configurar todos los eventos interactivos para el contenido dinámico
-    document.addEventListener('click', function(event) {
-        
+    document.addEventListener('click', function (event) {
+
         // Clic en el contenedor de video para reproducir
         const videoContainer = event.target.closest('.videoContainer');
         if (videoContainer) {
@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 alert('La URL del video no es válida o no es de YouTube.');
             }
         }
-        
+
         // Clic en un botón de opción de ejercicio
         const optionButton = event.target.closest('.option-btn');
         if (optionButton) {
@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (nextBtn) currentLessonIndex = (currentLessonIndex + 1) % levelData.lessons.length;
             if (prevBtn) currentLessonIndex = (currentLessonIndex - 1 + levelData.lessons.length) % levelData.lessons.length;
-            
+
             updateCarouselUI(carousel, levelData.lessons[currentLessonIndex]);
         }
     });
@@ -194,19 +194,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // ... (todo el código existente de main.js) ...
 
+
+
+
 // --- LÓGICA PARA EL BOTÓN "SIGUIENTE LECCIÓN" ---
 document.addEventListener('DOMContentLoaded', function () {
     // ... (resto del código dentro de DOMContentLoaded si existe) ...
-    
+    if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+    // Llevamos la ventana al punto (0, 0) que es el inicio.
+    window.scrollTo(0, 0);
+
     const nextLessonButton = document.getElementById('next-lesson-btn');
     const loadingOverlay = document.getElementById('loading-overlay');
 
     if (nextLessonButton) {
         nextLessonButton.addEventListener('click', async (event) => {
             // Prevenimos el comportamiento por defecto del enlace
-            event.preventDefault(); 
+            event.preventDefault();
 
-            // 1. Mostramos la pantalla de carga
+            // 1. Mostramos la pantalla de carga    
             if (loadingOverlay) {
                 loadingOverlay.style.display = 'flex';
             }
@@ -231,14 +239,14 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                         alert(result.message || 'No se pudo pasar al siguiente nivel.');
                         // Si ya no hay más niveles, el usuario verá la página de felicitaciones al recargar.
-                        location.reload(); 
+                        location.reload();
                     }
                 }, 3000); // 3000 milisegundos = 3 segundos
 
             } catch (error) {
                 console.error('Error al actualizar el progreso:', error);
                 // En caso de un error de red, ocultamos la carga y mostramos un mensaje
-                 setTimeout(() => {
+                setTimeout(() => {
                     if (loadingOverlay) {
                         loadingOverlay.style.display = 'none';
                     }
