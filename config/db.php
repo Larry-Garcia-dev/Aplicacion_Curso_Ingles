@@ -4,7 +4,7 @@
 function conectarDB() {
     // Configuración de la base de datos
     $host = 'localhost';
-    $db_name = ' hellrfnj_curso_ingles_db';
+    $db_name = 'hellrfnj_curso_ingles_db';
     $username = 'root';
     $password = '';
 
