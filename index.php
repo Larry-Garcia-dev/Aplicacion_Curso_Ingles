@@ -57,26 +57,14 @@
                     <form class="auth-form" id="login-form" action="php/login_register/login.php" method="POST" >
                         <div class="form-group">
                             <label for="login-phone">Teléfono</label>
-                            <input 
-                                type="tel" 
-                                id="login-phone" 
-                                name="phone" 
-                                placeholder="+1234567890"
-                                required
-                            >
+                            <input type="tel" id="login-phone" name="phone" placeholder="+1234567890"required>
                             <div class="error-message" id="login-phone-error"></div>
                         </div>
 
                         <div class="form-group">
                             <label for="login-password">Contraseña</label>
                             <div class="password-input-container">
-                                <input 
-                                    type="password" 
-                                    id="login-password" 
-                                    name="password" 
-                                    placeholder="Tu contraseña"
-                                    required
-                                >
+                                <input type="password" id="login-password" name="password" placeholder="Tu contraseña" required>
                                 <button type="button" class="toggle-password" data-target="login-password">
                                     <span class="toggle-text">Mostrar</span>
                                 </button>
