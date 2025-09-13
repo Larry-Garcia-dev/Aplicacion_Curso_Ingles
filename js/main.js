@@ -192,3 +192,59 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+// ... (todo el código existente de main.js) ...
+
+// --- LÓGICA PARA EL BOTÓN "SIGUIENTE LECCIÓN" ---
+document.addEventListener('DOMContentLoaded', function () {
+    // ... (resto del código dentro de DOMContentLoaded si existe) ...
+    
+    const nextLessonButton = document.getElementById('next-lesson-btn');
+    const loadingOverlay = document.getElementById('loading-overlay');
+
+    if (nextLessonButton) {
+        nextLessonButton.addEventListener('click', async (event) => {
+            // Prevenimos el comportamiento por defecto del enlace
+            event.preventDefault(); 
+
+            // 1. Mostramos la pantalla de carga
+            if (loadingOverlay) {
+                loadingOverlay.style.display = 'flex';
+            }
+
+            try {
+                // 2. Llamamos al script PHP para actualizar el nivel
+                const response = await fetch('../php/update_progress.php', {
+                    method: 'POST'
+                });
+
+                const result = await response.json();
+
+                // 3. Esperamos 3 segundos para que el usuario vea la animación
+                setTimeout(() => {
+                    if (result.success) {
+                        // 4. Si todo fue bien, recargamos la página para mostrar el nuevo nivel
+                        location.reload();
+                    } else {
+                        // Si hay un error (ej. ya no hay más niveles), lo mostramos
+                        if (loadingOverlay) {
+                            loadingOverlay.style.display = 'none';
+                        }
+                        alert(result.message || 'No se pudo pasar al siguiente nivel.');
+                        // Si ya no hay más niveles, el usuario verá la página de felicitaciones al recargar.
+                        location.reload(); 
+                    }
+                }, 3000); // 3000 milisegundos = 3 segundos
+
+            } catch (error) {
+                console.error('Error al actualizar el progreso:', error);
+                // En caso de un error de red, ocultamos la carga y mostramos un mensaje
+                 setTimeout(() => {
+                    if (loadingOverlay) {
+                        loadingOverlay.style.display = 'none';
+                    }
+                    alert('Ocurrió un error de red. Por favor, inténtalo de nuevo.');
+                }, 3000);
+            }
+        });
+    }
+});

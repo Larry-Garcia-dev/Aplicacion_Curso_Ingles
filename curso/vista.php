@@ -133,7 +133,7 @@ include '../views/header.php';
                     <?php endforeach; ?>
                 </div>
 
-                <a href="#hero" class="btn btn-lg" style="background: white; color: var(--primary);">Siguiente lección</a>
+                <a href="#" id="next-lesson-btn" class="btn btn-lg" style="background: white; color: var(--primary);">Siguiente lección</a>
 
             </div>
         </section>
@@ -145,6 +145,18 @@ include '../views/header.php';
         <p>Has completado todos los niveles disponibles en el curso.</p>
     </div>
 <?php endif; ?>
+<div id="loading-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; color: white; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+    <div class="spinner" style="border: 4px solid rgba(255,255,255,.3); border-top-color: white; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite;"></div>
+    <p style="margin-top: 20px; font-size: 1.5rem; font-weight: 500;">Actualizando nivel...</p>
+</div>
+
+<style>
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+</style>
 
 
 <?php include '../views/footer.php'; ?>
