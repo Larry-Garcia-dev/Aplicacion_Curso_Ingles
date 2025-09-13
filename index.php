@@ -145,6 +145,6 @@
     </main>
 
     <script src="js/app.js"></script>
-    <?php //include 'views/footer.php'; ?>
+    <?php include 'views/footer.php'; ?>
 </body>
 </html>
