@@ -2,9 +2,9 @@
 // config/db.php
 
 function conectarDB() {
-    // Configuración de la base de datos hola mundo hellrfnj_
+    // Configuración de la base de datos hola mundo
     $host = 'localhost';
-    $db_name = 'curso_ingles_db';
+    $db_name = 'hellrfnj_curso_ingles_db';
     $username = 'hellrfnj_HelloCasabianca';
     $password = 'w0~$OADj6Ptb';
 
