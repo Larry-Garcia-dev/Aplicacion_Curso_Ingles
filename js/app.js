@@ -203,8 +203,6 @@ function handleLoginSubmit(event) {
         shakeForm(form);
     }
     
-    // Si no hay errores (hasErrors es false), la función termina y el formulario
-    // se envía de forma normal, permitiendo que el backend de PHP haga la redirección.
 }
 
 // Asegúrate de vincular esta función al evento 'submit' de tu formulario
@@ -212,13 +210,6 @@ const loginForm = document.getElementById('loginForm'); // Asegúrate de que tu 
 if (loginForm) {
     loginForm.addEventListener('submit', handleLoginSubmit);
 }
-
-/* Recuerda que también necesitas las funciones auxiliares que ya tenías:
-   - clearFormErrors(form)
-   - showFieldError(elementId, message)
-   - validatePhone(phone)
-   - shakeForm(form)
-*/
 
 // Registration form submission
 async function handleRegistroSubmit(event) {
