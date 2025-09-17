@@ -159,7 +159,7 @@ include '../views/header.php';
 </style>
 
 
-<?php include '../views/footer.php'; ?>
+<?php //include '../views/footer.php'; ?>
 
 <script>
     const levelData = <?php echo isset($level_data) ? json_encode($level_data) : 'null'; ?>;

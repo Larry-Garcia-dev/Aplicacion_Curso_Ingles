@@ -21,8 +21,8 @@
     max-width: 1200px;
     margin: 0 auto;
     padding-bottom: 30px;
-    border-bottom: 1px solid #34495e;
-}
+    /* border-bottom: 1px solid #7C3AED;*/
+} 
 
 /* Estilo para cada sección del footer */
 .emblema-y-gobierno,
