@@ -2,28 +2,28 @@
 // config/db.php
 
 function conectarDB() {
-    // Configuración de la base de datos hola mundo
-    $host = 'localhost';
+    // Configuración de la base de datos
+    $host = '47.87.10.226'; // IP pública de tu servidor
+    $port = 3306; // puerto MySQL expuesto en Docker
     $db_name = 'hellrfnj_curso_ingles_db';
     $username = 'hellrfnj_HelloCasabianca';
     $password = 'w0~$OADj6Ptb';
 
     try {
-        // Cadena de conexión (DSN) y creación de la instancia de PDO
-        $pdo = new PDO("mysql:host={$host};dbname={$db_name};charset=utf8mb4", $username, $password);
-        
-        // Configurar atributos de PDO para un manejo de errores robusto
+        // Cadena de conexión (DSN) con puerto explícito
+        $dsn = "mysql:host={$host};port={$port};dbname={$db_name};charset=utf8mb4";
+        $pdo = new PDO($dsn, $username, $password);
+
+        // Configurar atributos de PDO
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-        
+
         return $pdo;
 
     } catch (PDOException $e) {
-        // Si hay un error, no mostramos detalles sensibles en producción.
-        // Lo ideal sería registrar el error en un archivo de logs.
+        // Registrar el error y mostrar un mensaje genérico
         error_log('PDO Connection Error: ' . $e->getMessage());
-        // Mostramos un mensaje genérico al usuario.
         exit('Hubo un error al conectar con la base de datos.');
     }
 }
