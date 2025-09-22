@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello Casabianca</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/recovery.css">
     <!-- <link rel="stylesheet" href="../css/main.css"> -->
     <link rel="shortcut icon" href="../img/logo.png" type="image/x-icon">
 
@@ -73,6 +74,9 @@
                                 </button>
                             </div>
                             <div class="error-message" id="login-password-error"></div>
+                        </div>
+                        <div style="text-align: right; margin-top: -1rem; margin-bottom: 1.5rem;">
+                            <a href="#" id="open-recovery-modal" style="font-size: 0.875rem; color: var(--primary); text-decoration: none;">¿Olvidaste tu contraseña?</a>
                         </div>
 
                         <button type="submit" class="submit-button">
@@ -145,6 +149,69 @@
             </div>
         </section>
     </main>
+    <div id="recoveryModal" class="recovery-modal">
+        <div class="recovery-modal-content">
+            <span class="recovery-close-btn">&times;</span>
+
+            <div id="recovery-step-1" class="recovery-step active">
+                <h2>Recuperar Contraseña</h2>
+                <form id="recovery-form-1" class="auth-form">
+                    <div class="form-group">
+                        <label for="recovery-phone">Tu número de teléfono</label>
+                        <input type="tel" id="recovery-phone" name="phone" placeholder="+1234567890" required>
+                        <div class="error-message" id="recovery-phone-error"></div>
+                    </div>
+                    <button type="submit" class="submit-button">
+                        <span class="button-text">Enviar Código</span>
+                        <div class="button-spinner" style="display: none;"></div>
+                    </button>
+                </form>
+            </div>
+
+            <div id="recovery-loading-step" class="recovery-step">
+                <div class="loader-container">
+                    <div class="loader"></div>
+                    <p class="loader-text">Enviando código a tu WhatsApp...</p>
+                </div>
+            </div>
+
+            <div id="recovery-step-2" class="recovery-step">
+                <h2>Verificar y Restablecer</h2>
+                <form id="recovery-form-2" class="auth-form">
+                    <div class="form-group">
+                        <label for="recovery-code">Código de Verificación</label>
+                        <input type="text" id="recovery-code" name="code" placeholder="Código recibido" required>
+                        <div class="error-message" id="recovery-code-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="recovery-password-1">Nueva Contraseña</label>
+                        <div class="password-input-container">
+                            <input type="password" id="recovery-password-1" name="password" placeholder="Mínimo 8 caracteres" required>
+                            <button type="button" class="toggle-password-recovery" data-target="recovery-password-1">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="error-message" id="recovery-password-1-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="recovery-password-2">Confirmar Contraseña</label>
+                        <div class="password-input-container">
+                            <input type="password" id="recovery-password-2" name="password_confirm" placeholder="Repite la contraseña" required>
+                            <button type="button" class="toggle-password-recovery" data-target="recovery-password-2">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="error-message" id="recovery-password-2-error"></div>
+                    </div>
+                    <button type="submit" class="submit-button">
+                        <span class="button-text">Cambiar Contraseña</span>
+                        <div class="button-spinner" style="display: none;"></div>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="js/recovery.js"></script>
 
     <script src="js/app.js"></script>
     <?php include 'views/footer.php'; ?>

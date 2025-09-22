@@ -1,0 +1,138 @@
+/* css/recovery.css */
+
+/* --- Estilos del Modal (con mejoras para responsivo) --- */
+.recovery-modal {
+  display: none; /* Oculto por defecto */
+  position: fixed;
+  z-index: 1001;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease-out;
+  /* Propiedades para centrar con Flexbox y evitar problemas con el teclado */
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.recovery-modal-content {
+  background: white;
+  margin: 0; /* Eliminamos el margen para que Flexbox lo controle */
+  padding: 2.5rem;
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 450px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.4s ease-out;
+  /* Scroll interno si el contenido se desborda en pantallas pequeñas */
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* --- Controles y Contenido del Modal --- */
+.recovery-close-btn {
+  color: #aaa;
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.recovery-close-btn:hover,
+.recovery-close-btn:focus {
+  color: #333;
+}
+
+.recovery-step {
+  display: none;
+}
+
+.recovery-step.active {
+  display: block;
+}
+
+.recovery-modal-content h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--foreground);
+}
+
+/* --- Estilos para el spinner de carga --- */
+.loader-container {
+  text-align: center;
+  padding: 2rem;
+}
+
+.loader {
+  border: 5px solid var(--muted);
+  border-top: 5px solid var(--primary);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+.loader-text {
+  font-weight: 500;
+  color: var(--muted-foreground);
+}
+
+/* --- Estilos para el botón de mostrar/ocultar contraseña --- */
+.recovery-modal .password-input-container .toggle-password-recovery {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 100%;
+  width: 3.5rem; /* Ancho del área clickeable */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9CA3AF; /* Gris neutral */
+  font-size: 1rem; /* Tamaño del ícono */
+  transition: color 0.2s ease-in-out;
+}
+
+.recovery-modal .password-input-container .toggle-password-recovery:hover {
+  color: var(--primary); /* Color principal al pasar el mouse */
+}
+
+/* Ajuste para que el texto de la contraseña no se ponga debajo del botón */
+.recovery-modal .password-input-container input[type="password"],
+.recovery-modal .password-input-container input[type="text"] {
+  padding-right: 3.5rem !important;
+}
+
+/* --- Animaciones --- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* --- Media Query para Responsivo (ya no es necesario para el teclado) --- */
+@media (max-width: 768px) {
+  .recovery-modal-content {
+    padding: 2rem;
+  }
+}
