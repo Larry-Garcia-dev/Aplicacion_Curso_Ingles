@@ -24,6 +24,9 @@ include '../views/header.php';
             <a href="../php/logout.php" class="logout-btn">
                 <span class="logout-icon">🚪</span> Cerrar Sesión
             </a>
+            <a href="" class="logout-btn">
+                <span class="logout-icon">🚪</span> Volver al chat
+            </a>
         </div>
     </nav>
 </header>
