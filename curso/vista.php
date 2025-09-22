@@ -21,12 +21,13 @@ include '../views/header.php';
         </div>
         <div class="nav-links">
             <span class="welcome-message">¡Hola, <?php echo htmlspecialchars($_SESSION['user_name']); ?>!</span>
+             <a href="https://wa.me/573203787804" class="logout-btn">
+                <span class="logout-icon">💬</span> Volver al chat
+            </a>
             <a href="../php/logout.php" class="logout-btn">
                 <span class="logout-icon">🚪</span> Cerrar Sesión
             </a>
-            <a href="" class="logout-btn">
-                <span class="logout-icon">🚪</span> Volver al chat
-            </a>
+           
         </div>
     </nav>
 </header>
@@ -65,7 +66,8 @@ include '../views/header.php';
                 <div class="video-carousel" data-level-id="<?php echo $level_data['id']; ?>">
                     <!-- <div class="video-controls">
                         <button class="btn btn-outline btn-icon prevVideo">‹</button>
-                        <h3 class="video-title"><?php //echo htmlspecialchars($first_lesson['title']); ?></h3>
+                        <h3 class="video-title"><?php //echo htmlspecialchars($first_lesson['title']); 
+                                                ?></h3>
                         <button class="btn btn-outline btn-icon nextVideo">›</button>
                     </div> -->
                     <div class="video-thumbnail videoContainer" data-video-url="<?php echo htmlspecialchars($first_lesson['video_url']); ?>">
@@ -162,7 +164,8 @@ include '../views/header.php';
 </style>
 
 
-<?php //include '../views/footer.php'; ?>
+<?php //include '../views/footer.php'; 
+?>
 
 <script>
     const levelData = <?php echo isset($level_data) ? json_encode($level_data) : 'null'; ?>;

@@ -97,7 +97,7 @@
 
                         <div class="form-group">
                             <label for="registro-phone">Teléfono</label>
-                            <input type="tel" id="registro-phone" name="phone" placeholder="+1234567890" required>
+                            <input type="tel" id="registro-phone" name="phone" placeholder="+1234567890" required  pattern="^\d+$" title="El teléfono solo puede contener números (sin espacios ni símbolos).">
                             <div class="error-message" id="registro-phone-error"></div>
                         </div>
 
