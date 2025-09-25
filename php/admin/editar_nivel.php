@@ -51,7 +51,7 @@ $summary_points = $level['summary_points'] ? json_decode($level['summary_points'
             <p>
                 <label for="title">Traduccion</label>
                 <!-- <input type="text" id="title" name="Traduccion" required value="<?php echo htmlspecialchars($level['Traduccion']); ?>"> -->
-                <textarea  rows="3" name="Traduccion" id=""><?php echo htmlspecialchars($level['Traduccion']); ?></textarea>
+                <textarea rows="3" name="Traduccion" id=""><?php echo htmlspecialchars($level['Traduccion']); ?></textarea>
             </p>
             <p>
                 <label for="level_order">Número de Orden</label>
@@ -67,17 +67,17 @@ $summary_points = $level['summary_points'] ? json_decode($level['summary_points'
                 <p>
                     <label>Punto 1</label>
                     <input type="text" name="summary[0][title]" placeholder="Título 1" value="<?php echo htmlspecialchars($summary_points[0]['title'] ?? ''); ?>">
-                    <input type="text" name="summary[0][desc]" placeholder="Descripción 1" value="<?php echo htmlspecialchars($summary_points[0]['desc'] ?? ''); ?>">
+                    <textarea rows="3" name="summary[0][desc]" placeholder="Descripción 1"><?php echo htmlspecialchars($summary_points[0]['desc'] ?? ''); ?></textarea>
                 </p>
                 <p>
                     <label>Punto 2</label>
                     <input type="text" name="summary[1][title]" placeholder="Título 2" value="<?php echo htmlspecialchars($summary_points[1]['title'] ?? ''); ?>">
-                    <input type="text" name="summary[1][desc]" placeholder="Descripción 2" value="<?php echo htmlspecialchars($summary_points[1]['desc'] ?? ''); ?>">
+                    <textarea rows="3" name="summary[1][desc]" placeholder="Descripción 2"><?php echo htmlspecialchars($summary_points[1]['desc'] ?? ''); ?></textarea>
                 </p>
                 <p>
                     <label>Punto 3</label>
                     <input type="text" name="summary[2][title]" placeholder="Título 3" value="<?php echo htmlspecialchars($summary_points[2]['title'] ?? ''); ?>">
-                    <input type="text" name="summary[2][desc]" placeholder="Descripción 3" value="<?php echo htmlspecialchars($summary_points[2]['desc'] ?? ''); ?>">
+                    <textarea rows="3" name="summary[2][desc]" placeholder="Descripción 3"><?php echo htmlspecialchars($summary_points[2]['desc'] ?? ''); ?></textarea>
                 </p>
             </fieldset>
 
