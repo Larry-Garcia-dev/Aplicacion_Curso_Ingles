@@ -21,13 +21,13 @@ include '../views/header.php';
         </div>
         <div class="nav-links">
             <span class="welcome-message">¡Hola, <?php echo htmlspecialchars($_SESSION['user_name']); ?>!</span>
-             <a href="https://wa.me/573203787804" class="logout-btn">
+            <a href="https://wa.me/573203787804" class="logout-btn">
                 <span class="logout-icon">💬</span> Volver al chat
             </a>
             <a href="../php/logout.php" class="logout-btn">
                 <span class="logout-icon">🚪</span> Cerrar Sesión
             </a>
-           
+
         </div>
     </nav>
 </header>
@@ -70,7 +70,7 @@ include '../views/header.php';
                                                 ?></h3>
                         <button class="btn btn-outline btn-icon nextVideo">›</button>
                     </div> -->
-                    <div class="video-thumbnail videoContainer" data-video-url="<?php echo htmlspecialchars($first_lesson['video_url']); ?>">
+                    <div class="video-thumbnail videoContainer" data-video-url="<?php echo htmlspecialchars_decode($first_lesson['video_url']); ?>">
                         <img class="videoThumbnail" src="../img/videos.jpg" alt="Video thumbnail">
                         <button class="play-button">▶</button>
                     </div>
@@ -88,7 +88,7 @@ include '../views/header.php';
                 <div class="exercises-grid">
                     <?php foreach ($first_lesson['exercises'] as $exercise): ?>
                         <div class="exercise-card" id="ex-<?php echo $exercise['id']; ?>">
-                            <h3 class="exercise-title"><?php echo htmlspecialchars($exercise['question']); ?></h3>
+                            <h3 class="exercise-title"><?php echo htmlspecialchars_decode($exercise['question']); ?></h3>
 
                             <?php if ($exercise['exercise_type'] === 'listen_and_write' || $exercise['exercise_type'] === 'choose_word'): ?>
                                 <button class="audio-btn" onclick="speakText('<?php echo addslashes($exercise['correct_answer']); ?>')">
@@ -101,14 +101,14 @@ include '../views/header.php';
                                     <?php $options = json_decode($exercise['options'] ?? '[]', true) ?: [];
                                     shuffle($options); ?>
                                     <?php foreach ($options as $option): ?>
-                                        <button class="option-btn"><?php echo htmlspecialchars($option); ?></button>
+                                        <button class="option-btn"><?php echo htmlspecialchars_decode($option); ?></button>
                                     <?php endforeach; ?>
                                 </div>
                             <?php else: ?>
                                 <input type="text" class="exercise-input" placeholder="Escribe tu respuesta...">
                             <?php endif; ?>
 
-                            <button class="btn btn-primary verify-btn" style="width: 100%;" data-correct-answer="<?php echo htmlspecialchars($exercise['correct_answer']); ?>">
+                            <button class="btn btn-primary verify-btn" style="width: 100%;" data-correct-answer="<?php echo htmlspecialchars_decode($exercise['correct_answer']); ?>">
                                 Verificar
                             </button>
                             <div class="exercise-result hidden"></div>

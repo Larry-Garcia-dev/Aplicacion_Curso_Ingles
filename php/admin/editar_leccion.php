@@ -34,7 +34,7 @@ if (!$lesson) {
 </head>
 <body>
     <header>
-        <h1>Editar Lección: <?php echo htmlspecialchars($lesson['title']); ?></h1>
+        <h1>Editar Lección: <?php echo htmlspecialchars_decode($lesson['title']); ?></h1>
         <p><a href="lecciones.php?level_id=<?php echo $lesson['level_id']; ?>">← Volver a lecciones</a></p>
     </header>
     <main>
@@ -44,19 +44,19 @@ if (!$lesson) {
 
             <p>
                 <label for="title">Título</label>
-                <input type="text" id="title" name="title" required value="<?php echo htmlspecialchars($lesson['title']); ?>">
+                <input type="text" id="title" name="title" required value="<?php echo htmlspecialchars_decode($lesson['title']); ?>">
             </p>
             <p>
                 <label for="description">Descripción</label>
-                <textarea id="description" name="description" rows="4"><?php echo htmlspecialchars($lesson['description']); ?></textarea>
+                <textarea id="description" name="description" rows="4"><?php echo htmlspecialchars_decode($lesson['description']); ?></textarea>
             </p>
             <p>
                 <label for="video_url">URL del Video</label>
-                <input type="url" id="video_url" name="video_url" value="<?php echo htmlspecialchars($lesson['video_url']); ?>">
+                <input type="url" id="video_url" name="video_url" value="<?php echo htmlspecialchars_decode($lesson['video_url']); ?>">
             </p>
              <p>
                 <label for="pdf_url">URL del PDF</label>
-                <input type="url" id="pdf_url" name="pdf_url" value="<?php echo htmlspecialchars($lesson['pdf_url']); ?>">
+                <input type="url" id="pdf_url" name="pdf_url" value="<?php echo htmlspecialchars_decode($lesson['pdf_url']); ?>">
             </p>
             <button type="submit">Actualizar Lección</button>
         </form>

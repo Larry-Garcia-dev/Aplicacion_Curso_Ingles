@@ -59,20 +59,20 @@ $options = $exercise['options'] ? json_decode($exercise['options'], true) : [];
 
             <p>
                 <label for="question">Pregunta o Instrucción</label>
-                <input type="text" id="question" name="question" required value="<?php echo htmlspecialchars($exercise['question']); ?>">
+                <input type="text" id="question" name="question" required value="<?php echo htmlspecialchars_decode($exercise['question']); ?>">
             </p>
 
             <div id="options-container" class="campo-opciones">
                 <label>Opciones de Respuesta (la primera es la correcta)</label>
-                <input type="text" name="options[]" placeholder="Opción 1 (Correcta)" value="<?php echo htmlspecialchars($options[0] ?? ''); ?>">
-                <input type="text" name="options[]" placeholder="Opción 2" value="<?php echo htmlspecialchars($options[1] ?? ''); ?>">
-                <input type="text" name="options[]" placeholder="Opción 3" value="<?php echo htmlspecialchars($options[2] ?? ''); ?>">
-                <input type="text" name="options[]" placeholder="Opción 4" value="<?php echo htmlspecialchars($options[3] ?? ''); ?>">
+                <input type="text" name="options[]" placeholder="Opción 1 (Correcta)" value="<?php echo htmlspecialchars_decode($options[0] ?? ''); ?>">
+                <input type="text" name="options[]" placeholder="Opción 2" value="<?php echo htmlspecialchars_decode($options[1] ?? ''); ?>">
+                <input type="text" name="options[]" placeholder="Opción 3" value="<?php echo htmlspecialchars_decode($options[2] ?? ''); ?>">
+                <input type="text" name="options[]" placeholder="Opción 4" value="<?php echo htmlspecialchars_decode($options[3] ?? ''); ?>">
             </div>
 
             <p>
                 <label for="correct_answer">Respuesta Correcta</label>
-                <input type="text" id="correct_answer" name="correct_answer" value="<?php echo htmlspecialchars($exercise['correct_answer']); ?>">
+                <input type="text" id="correct_answer" name="correct_answer" value="<?php echo htmlspecialchars_decode($exercise['correct_answer']); ?>">
             </p>
             
             <button type="submit">Actualizar Ejercicio</button>

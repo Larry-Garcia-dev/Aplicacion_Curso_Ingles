@@ -36,13 +36,13 @@ $exercises = $stmt->fetchAll();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ejercicios de <?php echo htmlspecialchars($lesson_title); ?></title>
+    <title>Ejercicios de <?php echo htmlspecialchars_decode($lesson_title); ?></title>
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
 </head>
 
 <body>
     <header>
-        <h1>Ejercicios de la lección: <?php echo htmlspecialchars($lesson_title); ?></h1>
+        <h1>Ejercicios de la lección: <?php echo htmlspecialchars_decode($lesson_title); ?></h1>
         <?php if ($level_id): ?>
             <p><a href="lecciones.php?level_id=<?php echo $level_id; ?>">← Volver a la lista de lecciones</a></p>
         <?php endif; ?>
@@ -66,9 +66,9 @@ $exercises = $stmt->fetchAll();
                 <?php foreach ($exercises as $exercise): ?>
                     <tr>
                         <td><?php echo $exercise['id']; ?></td>
-                        <td><?php echo htmlspecialchars($exercise['exercise_type']); ?></td>
-                        <td><?php echo htmlspecialchars($exercise['question']); ?></td>
-                        <td><?php echo htmlspecialchars($exercise['correct_answer']); ?></td>
+                        <td><?php echo htmlspecialchars_decode($exercise['exercise_type']); ?></td>
+                        <td><?php echo htmlspecialchars_decode($exercise['question']); ?></td>
+                        <td><?php echo htmlspecialchars_decode($exercise['correct_answer']); ?></td>
                         <td style="display: flex; gap: 10px; align-items: center;">
                             <a href="editar_ejercicio.php?id=<?php echo $exercise['id']; ?>" class="button">Editar</a>
 

@@ -54,7 +54,7 @@ $lessons = $stmt->fetchAll(); // Usamos fetchAll para obtener todos los resultad
                 <?php foreach ($lessons as $lesson): ?>
                     <tr>
                         <td><?php echo $lesson['id']; ?></td>
-                        <td><?php echo htmlspecialchars($lesson['title']); ?></td>
+                        <td><?php echo htmlspecialchars_decode($lesson['title']); ?></td>
                         <td style="display: flex; gap: 10px; align-items: center;">
                             <a href="editar_leccion.php?id=<?php echo $lesson['id']; ?>" class="button">Editar</a>
 
