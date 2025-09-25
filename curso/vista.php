@@ -42,8 +42,8 @@ include '../views/header.php';
                 <img src="../img/banners.jpg" alt="Ilustración del curso" class="hero-main-image">
             </div>
             <div class="hero-text-content">
-                <h1><?php echo htmlspecialchars($level_data['title']); ?></h1>
-                <h3 class="subtitle"><?php echo htmlspecialchars($level_data['Traduccion'] ?? ''); ?></h3>
+                <h1><?php echo htmlspecialchars_decode($level_data['title']); ?></h1>
+                <h3 class="subtitle"><?php echo htmlspecialchars_decode($level_data['Traduccion'] ?? ''); ?></h3>
                 <br>
                 <p><?php echo htmlspecialchars($level_data['description']); ?></p>
                 <div class="hero-buttons">
@@ -61,7 +61,7 @@ include '../views/header.php';
 
     <section id="videos" class="section section-muted">
         <div class="container">
-            <h2>Video de la Lección: <?php echo htmlspecialchars($level_data['title']); ?></h2>
+            <h2>Video de la Lección: <?php echo htmlspecialchars_decode($level_data['title']); ?></h2>
             <?php if ($has_lessons): ?>
                 <div class="video-carousel" data-level-id="<?php echo $level_data['id']; ?>">
                     <!-- <div class="video-controls">
@@ -132,8 +132,8 @@ include '../views/header.php';
                     <?php foreach ($summary_points as $point): ?>
                         <div class="summary-card">
                             <div class="emoji">🗣️</div>
-                            <h3><?php echo htmlspecialchars($point['title'] ?? ''); ?></h3>
-                            <p><?php echo htmlspecialchars($point['desc'] ?? ''); ?></p>
+                            <h3><?php echo htmlspecialchars_decode($point['title'] ?? ''); ?></h3>
+                            <p><?php echo htmlspecialchars_decode($point['desc'] ?? ''); ?></p>
                         </div>
                     <?php endforeach; ?>
                 </div>

@@ -51,8 +51,8 @@ $stmt = $pdo->query($query);
                 while ($level = $stmt->fetch()):
                 ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($level['level_order']); ?></td>
-                        <td><?php echo htmlspecialchars($level['title']); ?></td>
+                        <td><?php echo htmlspecialchars_decode($level['level_order']); ?></td>
+                        <td><?php echo htmlspecialchars_decode($level['title']); ?></td>
                         <td>
                             <a class="button" style="background-color: #1898eeff;" href="editar_nivel.php?id=<?php echo $level['id']; ?>">Editar</a>
 
