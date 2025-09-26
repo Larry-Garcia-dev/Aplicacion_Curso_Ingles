@@ -27,15 +27,19 @@ $options = $exercise['options'] ? json_decode($exercise['options'], true) : [];
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Ejercicio</title>
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
     <style>
-        .campo-opciones { display: none; }
+        .campo-opciones {
+            display: none;
+        }
     </style>
 </head>
+
 <body>
     <header>
         <h1>Editar Ejercicio</h1>
@@ -59,7 +63,7 @@ $options = $exercise['options'] ? json_decode($exercise['options'], true) : [];
 
             <p>
                 <label for="question">Pregunta o Instrucción</label>
-                <input type="text" id="question" name="question" required value="<?php echo htmlspecialchars_decode($exercise['question']); ?>">
+                <textarea rows="3" id="question" name="question" required><?php echo htmlspecialchars_decode($exercise['question']); ?></textarea>
             </p>
 
             <div id="options-container" class="campo-opciones">
@@ -74,7 +78,7 @@ $options = $exercise['options'] ? json_decode($exercise['options'], true) : [];
                 <label for="correct_answer">Respuesta Correcta</label>
                 <input type="text" id="correct_answer" name="correct_answer" value="<?php echo htmlspecialchars_decode($exercise['correct_answer']); ?>">
             </p>
-            
+
             <button type="submit">Actualizar Ejercicio</button>
         </form>
     </main>
@@ -96,4 +100,5 @@ $options = $exercise['options'] ? json_decode($exercise['options'], true) : [];
         document.addEventListener('DOMContentLoaded', toggleFields);
     </script>
 </body>
+
 </html>

@@ -97,9 +97,43 @@
 
                         <div class="form-group">
                             <label for="registro-phone">Teléfono</label>
-                            <input type="tel" id="registro-phone" name="phone" placeholder="+1234567890" required  pattern="^\d+$" title="El teléfono solo puede contener números (sin espacios ni símbolos).">
+                            <input type="tel" id="registro-phone" name="phone" value="57" required pattern="^57\d+$" title="El teléfono debe comenzar con 57 y solo puede contener números.">
                             <div class="error-message" id="registro-phone-error"></div>
                         </div>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const phoneInput = document.getElementById('registro-phone');
+
+                                // Función para posicionar el cursor después del prefijo
+                                const setCursorPosition = () => {
+                                    // Mueve el cursor al final del prefijo si está al principio
+                                    if (phoneInput.selectionStart < 2) {
+                                        phoneInput.setSelectionRange(2, 2);
+                                    }
+                                };
+
+                                // Evento al hacer clic o focus para mover el cursor
+                                phoneInput.addEventListener('focus', setCursorPosition);
+                                phoneInput.addEventListener('click', setCursorPosition);
+
+                                // Evento al presionar una tecla
+                                phoneInput.addEventListener('keydown', (e) => {
+                                    // Si el cursor está al inicio y se presiona "Backspace" o "Delete", se previene la acción
+                                    if ((e.key === 'Backspace' || e.key === 'Delete') && phoneInput.selectionStart <= 2) {
+                                        e.preventDefault();
+                                    }
+                                });
+
+                                // Evento de entrada para asegurar que el valor siempre comience con "57"
+                                // Esto es útil si el usuario intenta pegar texto que no incluye el prefijo.
+                                phoneInput.addEventListener('input', () => {
+                                    if (!phoneInput.value.startsWith('57')) {
+                                        phoneInput.value = '57';
+                                    }
+                                });
+                            });
+                        </script>
 
                         <div class="form-group">
                             <label for="registro-password">Contraseña</label>
