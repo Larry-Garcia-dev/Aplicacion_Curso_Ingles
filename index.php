@@ -59,10 +59,15 @@
                 <!-- Login Form -->
                 <div class="form-container active" data-form="login">
                     <form class="auth-form" id="#" action="php/login_register/login.php" method="POST">
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="login-phone">Teléfono</label>
                             <input type="tel" id="login-phone" name="phone" placeholder="+1234567890" required>
                             <div class="error-message" id="login-phone-error"></div>
+                        </div> -->
+                         <div class="form-group">
+                            <label for="registro-phone">Teléfono</label>
+                            <input type="tel" id="registro-phone" name="phone" value="57" required pattern="^57\d+$" title="El teléfono debe comenzar con 57 y solo puede contener números.">
+                            <div class="error-message" id="registro-phone-error"></div>
                         </div>
 
                         <div class="form-group">
