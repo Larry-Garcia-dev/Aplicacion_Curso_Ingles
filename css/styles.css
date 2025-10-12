@@ -55,10 +55,12 @@ body::after {
 }
 
 @keyframes backgroundFloat {
+
   0%,
   100% {
     transform: translateY(0px) rotate(0deg);
   }
+
   50% {
     transform: translateY(-20px) rotate(1deg);
   }
@@ -68,6 +70,7 @@ body::after {
   0% {
     background: var(--gradient-purple);
   }
+
   100% {
     background: var(--gradient-accent);
   }
@@ -85,6 +88,7 @@ body::after {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -128,11 +132,13 @@ body::after {
 }
 
 @keyframes pulse {
+
   0%,
   100% {
     opacity: 1;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.5;
     transform: scale(1.2);
@@ -144,6 +150,7 @@ body::after {
     opacity: 0;
     transform: translateY(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -234,10 +241,12 @@ body::after {
 }
 
 @keyframes float {
+
   0%,
   100% {
     transform: translateY(0px) rotate(0deg);
   }
+
   50% {
     transform: translateY(-20px) rotate(5deg);
   }
@@ -247,6 +256,7 @@ body::after {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -265,6 +275,7 @@ body::after {
     opacity: 0;
     transform: translateY(30px) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -284,10 +295,12 @@ body::after {
 }
 
 @keyframes shimmer {
+
   0%,
   100% {
     filter: brightness(1);
   }
+
   50% {
     filter: brightness(1.2);
   }
@@ -323,6 +336,7 @@ body::after {
     opacity: 0;
     transform: translateX(30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -417,13 +431,16 @@ input:invalid:not(:focus):not(:placeholder-shown) {
 }
 
 @keyframes shake {
+
   0%,
   100% {
     transform: translateX(0);
   }
+
   25% {
     transform: translateX(-5px);
   }
+
   75% {
     transform: translateX(5px);
   }
@@ -636,6 +653,7 @@ input:invalid:not(:focus):not(:placeholder-shown) {
     opacity: 0;
     transform: translateX(100%);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -685,6 +703,7 @@ input:invalid:not(:focus):not(:placeholder-shown) {
 
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -695,5 +714,88 @@ input:invalid:not(:focus):not(:placeholder-shown) {
 
   .decorative-elements {
     display: none;
+  }
+}
+
+/* ... (código CSS existente) ... */
+
+/* --- ESTILOS PARA LAS NUEVAS ALERTAS CENTRALES --- */
+
+/* Contenedor que cubre toda la pantalla */
+.toast-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Fondo semitransparente */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  /* Asegura que esté por encima de todo */
+  opacity: 0;
+  /* Inicia invisible para la animación */
+  pointer-events: none;
+  /* No interfiere con clics cuando está oculto */
+  transition: opacity 0.3s ease;
+}
+
+/* Estilo para cuando el contenedor está activo */
+.toast-container.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+
+/* El cuadro de la alerta */
+.toast {
+  background: white;
+  color: var(--foreground);
+  padding: 2.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 90%;
+  width: 350px;
+  /* Ancho fijo para la alerta */
+  font-size: 1.25rem;
+  /* Letra más grande */
+  font-weight: 500;
+  border-left: none;
+  /* Quitamos el borde lateral anterior */
+  transform: scale(0.9);
+  /* Inicia un poco más pequeño para la animación */
+  transition: transform 0.3s ease;
+}
+
+.toast-container.active .toast {
+  transform: scale(1);
+  /* Animación de crecimiento */
+}
+
+.toast.success {
+  border-top: 5px solid #10b981;
+  /* Borde superior verde para éxito */
+}
+
+.toast.error {
+  border-top: 5px solid var(--secondary);
+  /* Borde superior rojo para error */
+}
+
+/* Ocultamos el botón de cerrar que ya no es necesario */
+.toast-close {
+  display: none;
+}
+
+/* --- FIN DE ESTILOS DE ALERTA --- */
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .main-container {
+    flex-direction: column;
   }
 }

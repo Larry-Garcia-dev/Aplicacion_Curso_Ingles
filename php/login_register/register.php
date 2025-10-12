@@ -7,6 +7,8 @@ header('Content-Type: application/json');
 // Incluimos la conexión a la base de datos
 require_once '../../config/db.php';
 
+// OJO: Quitamos session_start() de aquí para configurarlo más adelante.
+
 // Función para enviar respuestas JSON y terminar el script
 function json_response($success, $message, $data = []) {
     echo json_encode([
@@ -24,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 // Obtenemos los datos del POST
 $name = $_POST['name'] ?? '';
-$phone = $_POST['phone'] ?? ''; // El formulario usa 'phone'
+$phone = $_POST['phone'] ?? '';
 $password = $_POST['password'] ?? '';
 
 // --- VALIDACIÓN DEL LADO DEL SERVIDOR (¡MUY IMPORTANTE!) ---
@@ -34,7 +36,6 @@ if (empty($name) || mb_strlen(trim($name)) < 2) {
 if (!preg_match('/^\+?\d{8,15}$/', $phone)) {
     json_response(false, 'Ingresa un número de teléfono válido.');
 }
-// Replicamos las reglas de validación de contraseña del JS en el backend
 $pass_validations = [
     'length' => mb_strlen($password) >= 8,
     'number' => preg_match('/\d/', $password),
@@ -67,6 +68,28 @@ try {
         ':phone' => $phone,
         ':password' => $password_hashed
     ]);
+    
+    $user_id = $pdo->lastInsertId();
+
+    // --- INICIO DE LA MODIFICACIÓN PARA SESIÓN PERSISTENTE ---
+    
+    // 1. Definimos la duración de la cookie (30 días en segundos)
+    $cookie_lifetime = 60 * 60 * 24 * 30;
+    
+    // 2. Establecemos los parámetros de la cookie ANTES de iniciar la sesión
+    session_set_cookie_params($cookie_lifetime);
+    
+    // 3. Ahora sí, iniciamos la sesión
+    session_start();
+    
+    // --- FIN DE LA MODIFICACIÓN ---
+
+    // Guardamos los datos en la sesión
+    $_SESSION['user_id'] = $user_id;
+    $_SESSION['user_name'] = $name;
+    $_SESSION['user_rol'] = 2; // Rol de usuario estándar
+    $_SESSION['loggedin'] = true;
+
 
     // Si todo fue bien, enviamos una respuesta exitosa
     json_response(true, '¡Cuenta creada exitosamente! Bienvenido.');

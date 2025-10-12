@@ -378,11 +378,45 @@ function showToast(message, type = "success") {
   }, 4000)
 }
 
-function removeToast(toast) {
+// function removeToast(toast) {
+//   if (toast && toast.parentNode) {
+//     toast.style.animation = "toastEnter 0.3s ease-out reverse"
+//     setTimeout(() => {
+//       toast.remove()
+//     }, 300)
+//   }
+// }
+// ... (código JavaScript existente) ...
+
+// Toast notifications
+function showToast(message, type = "success") {
+  const toastContainer = document.getElementById("toast-container");
+
+  // Añadimos la clase 'active' para mostrar el fondo y la alerta
+  toastContainer.classList.add("active");
+
+  const toast = document.createElement("div");
+  toast.className = `toast ${type}`;
+  toast.innerHTML = `<span>${message}</span>`;
+
+  // Limpiamos el contenedor antes de añadir una nueva alerta
+  toastContainer.innerHTML = ''; 
+  toastContainer.appendChild(toast);
+
+  // Auto-remove after 2 seconds
+  setTimeout(() => {
+    // Eliminamos la clase 'active' para ocultar con una animación
+    toastContainer.classList.remove("active");
+  }, 2000); // 2000 milisegundos = 2 segundos
+}
+
+// La función removeToast ya no es necesaria con este nuevo enfoque
+/* function removeToast(toast) {
   if (toast && toast.parentNode) {
-    toast.style.animation = "toastEnter 0.3s ease-out reverse"
+    toast.style.animation = "toastEnter 0.3s ease-out reverse";
     setTimeout(() => {
-      toast.remove()
-    }, 300)
+      toast.remove();
+    }, 300);
   }
 }
+*/

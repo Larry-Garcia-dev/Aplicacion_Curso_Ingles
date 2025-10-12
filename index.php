@@ -15,6 +15,37 @@
 <body>
     <!-- Toast Container -->
     <div id="toast-container" class="toast-container" aria-live="polite"></div>
+    <?php
+    if (isset($_GET['error'])) {
+        $message = '';
+        switch ($_GET['error']) {
+            case 'invalid_credentials':
+                $message = 'El teléfono o la contraseña son incorrectos.';
+                break;
+            case 'empty_fields':
+                $message = 'Por favor, completa todos los campos.';
+                break;
+            case 'not_logged_in':
+                $message = 'Debes iniciar sesión para acceder a esta página.';
+                break;
+            default:
+                $message = 'Ocurrió un error inesperado.';
+        }
+        // Inyectamos el script que mostrará la alerta
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                showToast('{$message}', 'error');
+            });
+        </script>";
+    }
+    if (isset($_GET['status']) && $_GET['status'] === 'logout_success') {
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                showToast('Has cerrado sesión correctamente.', 'success');
+            });
+        </script>";
+    }
+    ?>
 
     <main class="main-container">
         <!-- Hero Section (70%) -->
@@ -22,7 +53,7 @@
             <!-- Live Preview Badge -->
             <div class="live-badge">
                 <div class="live-dot"></div>
-                <span>Hola/Hello V1</span>
+                <span>Hola/Hello V1.9</span>
             </div>
 
             <!-- Decorative Elements -->
@@ -64,7 +95,7 @@
                             <input type="tel" id="login-phone" name="phone" placeholder="+1234567890" required>
                             <div class="error-message" id="login-phone-error"></div>
                         </div> -->
-                         <div class="form-group">
+                        <div class="form-group">
                             <label for="registro-phone">Teléfono</label>
                             <input type="tel" id="registro-phone" name="phone" value="57" required pattern="^57\d+$" title="El teléfono debe comenzar con 57 y solo puede contener números.">
                             <div class="error-message" id="registro-phone-error"></div>

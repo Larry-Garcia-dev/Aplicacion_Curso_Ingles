@@ -1,7 +1,7 @@
 <?php
-// php/login_register/login.php (Corrección final de tipo de dato)
+// php/login_register/login.php
 
-session_start();
+// OJO: Quitamos session_start() de aquí.
 require_once '../../config/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -26,20 +26,30 @@ try {
     $user = $stmt->fetch();
 
     if ($user && password_verify($password, $user['password'])) {
-        session_regenerate_id(true);
+        
+        // --- INICIO DE LA MODIFICACIÓN PARA SESIÓN PERSISTENTE ---
+
+        // 1. Definimos la duración de la cookie (30 días en segundos)
+        $cookie_lifetime = 60 * 60 * 24 * 30;
+        
+        // 2. Establecemos los parámetros de la cookie ANTES de iniciar la sesión
+        session_set_cookie_params($cookie_lifetime);
+        
+        // 3. Ahora sí, iniciamos la sesión
+        session_start();
+        session_regenerate_id(true); // Por seguridad
+
+        // --- FIN DE LA MODIFICACIÓN ---
 
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_name'] = $user['name'];
         $_SESSION['user_rol'] = $user['rol'];
         $_SESSION['loggedin'] = true;
 
-        // --- LÓGICA DE REDIRECCIÓN CORREGIDA ---
-        // Convertimos el 'rol' a un entero (int) antes de la comparación estricta.
+        // Lógica de redirección
         if ((int)$user['rol'] === 1) {
-            // Si es admin, lo mandamos al panel de administración
             header('Location: ../admin/index.php');
         } else {
-            // Para cualquier otro rol, lo mandamos a la página principal del curso
             header('Location: ../../curso/index.php');
         }
         exit;

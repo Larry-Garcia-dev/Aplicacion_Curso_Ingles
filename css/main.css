@@ -71,6 +71,12 @@ body {
     color: var(--primary);
 }
 
+@media (max-width: 768px) {
+    .header {
+        display: none;
+    }
+}
+
 @media (min-width: 768px) {
     .nav-links {
         display: flex;
@@ -248,61 +254,80 @@ body {
 
 /* Hero Section */
 .hero {
-    padding: 4rem 1rem; /* Ajustado el padding general */
+    padding: 4rem 1rem;
+    /* Ajustado el padding general */
     text-align: center;
     position: relative;
     z-index: 10;
-    overflow: hidden; /* Para manejar cualquier desbordamiento de la imagen */
+    overflow: hidden;
+    /* Para manejar cualquier desbordamiento de la imagen */
 }
 
 .hero .container {
-    max-width: 1200px; /* Ancho máximo del contenedor */
+    max-width: 1200px;
+    /* Ancho máximo del contenedor */
     margin: 0 auto;
 }
 
 .hero-content-wrapper {
     display: flex;
-    flex-direction: column; /* Por defecto en móvil: imagen arriba, texto abajo */
+    flex-direction: column;
+    /* Por defecto en móvil: imagen arriba, texto abajo */
     align-items: center;
-    gap: 2rem; /* Espacio entre la imagen y el texto */
+    gap: 2rem;
+    /* Espacio entre la imagen y el texto */
 }
 
-@media (min-width: 992px) { /* A partir de pantallas de escritorio */
+@media (min-width: 992px) {
+
+    /* A partir de pantallas de escritorio */
     .hero-content-wrapper {
-        flex-direction: row; /* En escritorio: imagen a la izquierda, texto a la derecha */
-        text-align: left; /* Alineación del texto a la izquierda en escritorio */
-        align-items: center; /* Centrar verticalmente los elementos */
+        flex-direction: row;
+        /* En escritorio: imagen a la izquierda, texto a la derecha */
+        text-align: left;
+        /* Alineación del texto a la izquierda en escritorio */
+        align-items: center;
+        /* Centrar verticalmente los elementos */
     }
 }
 
 .hero-image-container {
-    flex: 1; /* La imagen ocupará el espacio disponible */
-    max-width: 100%; /* Asegura que la imagen no se desborde en móvil */
+    flex: 1;
+    /* La imagen ocupará el espacio disponible */
+    max-width: 100%;
+    /* Asegura que la imagen no se desborde en móvil */
 }
 
 @media (min-width: 992px) {
     .hero-image-container {
-        flex: 1; /* La imagen ocupará la mitad izquierda */
-        padding-right: 2rem; /* Espacio entre la imagen y el texto */
+        flex: 1;
+        /* La imagen ocupará la mitad izquierda */
+        padding-right: 2rem;
+        /* Espacio entre la imagen y el texto */
     }
 }
 
 .hero-main-image {
     max-width: 100%;
     height: auto;
-    display: block; /* Elimina espacio extra debajo de la imagen */
-    border-radius: 0.75rem; /* Opcional: bordes redondeados para la imagen */
+    display: block;
+    /* Elimina espacio extra debajo de la imagen */
+    border-radius: 0.75rem;
+    /* Opcional: bordes redondeados para la imagen */
     /* box-shadow: 0 10px 20px rgba(0,0,0,0.1); Opcional: sombra para la imagen */
 }
 
 .hero-text-content {
-    flex: 1; /* El texto ocupará el espacio disponible */
-    max-width: 100%; /* Asegura que el texto no se desborde en móvil */
+    flex: 1;
+    /* El texto ocupará el espacio disponible */
+    max-width: 100%;
+    /* Asegura que el texto no se desborde en móvil */
 }
 
 @media (min-width: 992px) {
     .hero-text-content {
-        flex: 1; /* El texto ocupará la mitad derecha */
+        flex: 1;
+        /* El texto ocupará la mitad derecha */
     }
 }
 
@@ -327,8 +352,10 @@ body {
 .hero p {
     font-size: 1.25rem;
     color: #6B7280;
-    margin-bottom: 1.5rem; /* Reducido el margen inferior para el texto */
-    max-width: 600px; /* Ancho máximo para el párrafo para que no se extienda demasiado */
+    margin-bottom: 1.5rem;
+    /* Reducido el margen inferior para el texto */
+    max-width: 600px;
+    /* Ancho máximo para el párrafo para que no se extienda demasiado */
     margin-left: auto;
     margin-right: auto;
 }
@@ -341,7 +368,8 @@ body {
 
 @media (min-width: 992px) {
     .hero p {
-        margin-left: 0; /* Alinea el párrafo a la izquierda en escritorio */
+        margin-left: 0;
+        /* Alinea el párrafo a la izquierda en escritorio */
         margin-right: auto;
     }
 }
@@ -363,7 +391,8 @@ body {
 
 @media (min-width: 992px) {
     .hero-buttons {
-        justify-content: flex-start; /* Alinea los botones a la izquierda en escritorio */
+        justify-content: flex-start;
+        /* Alinea los botones a la izquierda en escritorio */
     }
 }
 
@@ -376,12 +405,14 @@ body {
     padding: 0.75rem 1.5rem;
     border-radius: 2rem;
     font-weight: 600;
-    margin-top: 1rem; /* Espacio encima del badge */
+    margin-top: 1rem;
+    /* Espacio encima del badge */
 }
 
 @media (min-width: 992px) {
     .hero-badge {
-        margin-left: 0; /* Alinea el badge a la izquierda en escritorio */
+        margin-left: 0;
+        /* Alinea el badge a la izquierda en escritorio */
         margin-right: auto;
     }
 }
@@ -430,9 +461,12 @@ body {
 
 /* Animación para el badge */
 @keyframes animate-pulse-glow {
-    0%, 100% {
+
+    0%,
+    100% {
         box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
     }
+
     50% {
         box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
     }
@@ -441,6 +475,7 @@ body {
 .animate-pulse-glow {
     animation: animate-pulse-glow 2s infinite;
 }
+
 /* Section Styles */
 .section {
     padding: 4rem 1rem;
