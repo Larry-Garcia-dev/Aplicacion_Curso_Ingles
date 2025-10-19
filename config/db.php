@@ -1,6 +1,6 @@
 <?php
 // config/db.php
-
+echo "Cargando configuración de la base de datos...\n";
 function conectarDB() {
     // Configuración de la base de datos
     $host = '47.87.10.226'; // IP pública de tu servidor

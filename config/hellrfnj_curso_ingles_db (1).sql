@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: mysql:3306
--- Tiempo de generación: 30-09-2025 a las 19:20:44
+-- Tiempo de generación: 19-10-2025 a las 23:28:38
 -- Versión del servidor: 5.7.44
 -- Versión de PHP: 8.2.27
 
@@ -42,9 +42,9 @@ CREATE TABLE `exercises` (
 
 INSERT INTO `exercises` (`id`, `lesson_id`, `exercise_type`, `question`, `options`, `correct_answer`) VALUES
 (23, 5, 'choose_word', '(Escoge y escucha la palabra correcta) _________. My name is María', '[\"Hello\",\"I Am\",\"Am\",\"I\"]', 'Hello'),
-(24, 5, 'complete_sentence', '(Escoge  la palabra correcta) Hi, What&#39;s your _________?', '[\"Name\",\"Age\",\"City\",\"Last Name\"]', 'Name'),
-(25, 5, 'translate', 'Traduce esta frase (¿Cuál es tu nombre?)', NULL, 'What&#39;s your name?'),
-(26, 5, 'listen_and_write', 'Escribe la frase que escuchas', NULL, 'Hello, My name is Maria'),
+(24, 5, 'complete_sentence', '(Escoge  la palabra correcta) Hi, What is your _________?', '[\"Name\",\"Age\",\"City\",\"Last Name\"]', 'Name'),
+(25, 5, 'translate', 'Traduce esta Frase( Hello, My name is Maria )', NULL, 'Hola mi nombre es maria'),
+(26, 5, 'listen_and_write', 'Escribe la frase que escuchas', NULL, 'Hello What is your name?'),
 (27, 6, 'choose_word', 'I am fine, _________ you', '[\"And\",\"Thank\",\"He\",\"Good\"]', 'And'),
 (28, 6, 'complete_sentence', 'Completa la frase (Hello, Pedro. How _________ you?)', '[\"Are\",\"He\",\"She\",\"We\"]', 'Are'),
 (29, 6, 'translate', 'Traduce esta frase (¿Cómo estás?)', NULL, 'How are you?'),
@@ -58,7 +58,7 @@ INSERT INTO `exercises` (`id`, `lesson_id`, `exercise_type`, `question`, `option
 (37, 8, 'translate', 'Traducir la palabra (Libro) al inglés', NULL, 'Book'),
 (38, 8, 'listen_and_write', 'Escribe la frase que escuchas', NULL, 'I have a dog'),
 (39, 9, 'choose_word', '¿Cuál de estas palabras es el número 15 en inglés?', '[\"Fifteen\",\"Five\",\"Forty\",\"Five-teen\"]', 'Fifteen'),
-(40, 9, 'translate', 'Translate the word (doce) to English.', NULL, 'Twelve'),
+(40, 9, 'translate', 'Traduce (doce) al inglés.', NULL, 'twelve '),
 (41, 9, 'listen_and_write', 'Escribe los números que escuchas (en letras)', NULL, 'one two five'),
 (42, 9, 'complete_sentence', 'Completa la serie con el número que sigue, 18, 19, ___', '[\"Twenty\",\"Twenty-one\",\"Twenty-two\",\"Twenty-five\"]', 'Twenty'),
 (43, 10, 'choose_word', '¿Cuál de estas frases se utiliza para preguntar la hora en inglés?', '[\"What time is it?\",\"How are you?\",\"Where is the clock?\",\"How old are you?\"]', 'What time is it?'),
@@ -143,7 +143,7 @@ CREATE TABLE `levels` (
 --
 
 INSERT INTO `levels` (`id`, `title`, `description`, `summary_points`, `level_order`, `Traduccion`) VALUES
-(9, 'Hello! I&#39;m Juan. And you? (Greetings and Introductions)', 'Aprende a saludar y presentarte en inglés de forma simple. Con solo unas pocas palabras, podrás iniciar una conversación básica y conocer a otras personas. ¡Es el primer paso para hablar inglés!\r\nVideo de referencia: Mira y escucha este video varias veces. Repite en voz alta y practica la pronunciación de los saludos.\r\n', '[{\"title\":\"Saludos B\\u00e1sicos\",\"desc\":\"Hello  y Hi son las formas m\\u00e1s comunes de saludar. Hello es un poco m\\u00e1s formal, mientras que Hi es m\\u00e1s informal y amigable. Puedes usarlos en cualquier momento del d\\u00eda.\"},{\"title\":\"Mi nombre es...\",\"desc\":\"I&#39;m... (Yo soy...) My name is... (Mi nombre es...) Ambas son correctas y se usan todo el tiempo. Elige la que m\\u00e1s te guste para empezar.\"},{\"title\":\"\\u00bfY el tuyo?\",\"desc\":\"Si quieres saber el nombre de otra persona solo tienes que preguntar What is your name? \\u00bfCu\\u00e1l es tu nombre?. Es la pregunta m\\u00e1s importante de esta lecci\\u00f3n.\"}]', 1, '¡Hola! Soy Juan. ¿Y tú? (Saludos y Presentaciones)'),
+(9, 'Hello! I am Juan. And you? (Greetings and Introductions)', 'Aprende a saludar y presentarte en inglés de forma simple. De manera clásica (sin el uso de apostrofes).   Con solo unas pocas palabras, podrás iniciar una conversación básica y conocer a otras personas. ¡Es el primer paso para hablar inglés!\r\nVideo de referencia: Mira y escucha este video varias veces. Repite en voz alta y practica la pronunciación de los saludos.\r\n', '[{\"title\":\"Saludos B\\u00e1sicos\",\"desc\":\"Hello  y Hi son las formas m\\u00e1s comunes de saludar. Hello es un poco m\\u00e1s formal, mientras que Hi es m\\u00e1s informal y amigable. Puedes usarlos en cualquier momento del d\\u00eda.\"},{\"title\":\"Mi nombre es...\",\"desc\":\"I&#39;m... (Yo soy...) My name is... (Mi nombre es...) Ambas son correctas y se usan todo el tiempo. Elige la que m\\u00e1s te guste para empezar.\"},{\"title\":\"\\u00bfY el tuyo?\",\"desc\":\"Si quieres saber el nombre de otra persona solo tienes que preguntar What is your name? \\u00bfCu\\u00e1l es tu nombre?. Es la pregunta m\\u00e1s importante de esta lecci\\u00f3n.\"}]', 1, '¡Hola! Soy Juan. ¿Y tú? (Saludos y Presentaciones)'),
 (10, 'How are you? (Feelings and Short Answers)', 'Ahora que sabes saludar y presentarte es hora de preguntar cómo se siente la otra persona. Con esta lección aprenderás a preguntar cómo estás y a responder con frases sencillas.\r\n', '[{\"title\":\"La pregunta How are you?\",\"desc\":\"Esta es la pregunta que usamos para saber c\\u00f3mo se siente alguien. Se traduce como \\u00bfC\\u00f3mo est\\u00e1s?. Es una de las preguntas m\\u00e1s comunes en ingl\\u00e9s, \\u00a1as\\u00ed que \\u00fasala mucho!\"},{\"title\":\"Respuestas positivas\",\"desc\":\"I am fine thank you, Estoy bien, gracias y I am good, Estoy bien son respuestas muy usadas. I am great! \\u00a1Estoy genial! Se usa cuando te sientes muy bien y con mucha energ\\u00eda.\"},{\"title\":\"Respuestas simples\",\"desc\":\"No siempre estamos bien y es correcto decirlo. Si est\\u00e1s cansado puedes decir: I am tired, Estoy cansado. Si est\\u00e1s triste, I am sad, Estoy triste. Estas respuestas cortas son muy \\u00fatiles para empezar.\"}]', 2, '¿Cómo estás? (Sentimientos y Respuestas Cortas)'),
 (11, 'My family and my house (Basic Vocabulary)', 'En esta lección aprenderás a nombrar a los miembros de tu familia y algunas cosas sencillas que encuentras en tu casa. Conocer estas palabras te ayudará a hablar de las personas y el lugar que más quieres.\r\n', '[{\"title\":\"Nombres de la familia\",\"desc\":\"Conocer a tu familia es muy importante. En inglés usamos palabras sencillas como (mother) mamá (father) papá (brother) hermano y (sister) hermana para referirnos a ellos. Memorizar estas palabras es el primer paso para hablar de tus seres queridos.\"},{\"title\":\"Mi casa mi mundo\",\"desc\":\"Tu casa es el lugar donde vives. Aprender a decir (house) casa (door) puerta y (window) ventana es un excelente comienzo. Estas son palabras que usarás todos los días.\"},{\"title\":\"Practica practica practica\",\"desc\":\"La mejor manera de aprender este vocabulario es usándolo. Cuando estés en tu casa nombra los objetos y a tu familia en inglés. Repetir las palabras en voz alta te ayudará a recordarlas más fácilmente.\"}]', 3, 'Mi familia y mi casa (Vocabulario Básico)'),
 (12, 'I have a dog. The verb (to have)', 'El verbo (to have) significa (tener). Con él puedes hablar de las cosas que posees como una casa una bicicleta o incluso una mascota. Aprenderlo te ayudará a describir lo que tienes.\r\n', '[{\"title\":\"El verbo (to have)\",\"desc\":\"(To have) es un verbo muy útil que significa (tener). Se usa para hablar de posesiones. Para la primera persona (yo) la frase es (I have...).\"},{\"title\":\"(a) y (an)\",\"desc\":\"Antes de nombrar un objeto en singular casi siempre usamos (a) o (an). (A) se usa antes de una palabra que empieza con un sonido de consonante (como en (a dog)). Por ahora solo concéntrate en usar (a) con los objetos que aprendiste.\"},{\"title\":\"¡Úsalo en tu día a día!\",\"desc\":\"La mejor manera de recordar (I have...) es usándolo todos los días. Mira a tu alrededor y di en voz alta (I have a phone) (I have a shirt) (I have a key). ¡Cuanto más lo repitas más fácil será para ti!\"}]', 4, 'Tengo un perro. (El verbo tener)'),
@@ -178,8 +178,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `phone_number`, `password`, `created_at`, `rol`, `current_level_id`, `code`) VALUES
-(15, 'Larry Garcia Morales', '573173328716', '$2y$10$fbA97mEI2W2CDqi6MieyBebUvkDfvaRi0JMOoZWGcpwhjqzvrRh.u', '2025-09-18 21:55:55', 2, 9, NULL),
-(48, 'Camila Carvajal', '3002988565', '$2y$10$GY259SPy3IU6ZZF6Uvsf7OoZePX00x0njdg6IXKoypcSQz0jyfdPW', '2025-09-25 18:06:34', 2, 11, NULL);
+(48, 'Camila Carvajal', '3002988565', '$2y$10$GY259SPy3IU6ZZF6Uvsf7OoZePX00x0njdg6IXKoypcSQz0jyfdPW', '2025-09-25 18:06:34', 2, 11, NULL),
+(51, 'Angel Ortiz', '573214800273', '$2y$10$RDS8DIgIgzUKG7.mAqXSaO8G3FsbQoRaDdh/MASnPacF3kFNi.qeG', '2025-10-05 20:10:59', 2, 9, NULL),
+(52, 'Andrés Libreros ', '573108169617', '$2y$10$bNAsZbuI4gDgHr5XQhs7gO988cp7OUYiIp0MojFelAXVfQnsTWmme', '2025-10-09 17:03:11', 2, 9, NULL);
 
 -- --------------------------------------------------------
 
@@ -262,7 +263,7 @@ ALTER TABLE `levels`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT de la tabla `user_progress`
