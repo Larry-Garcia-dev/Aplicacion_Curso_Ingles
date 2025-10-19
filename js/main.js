@@ -198,61 +198,122 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 // --- LÓGICA PARA EL BOTÓN "SIGUIENTE LECCIÓN" ---
+// document.addEventListener('DOMContentLoaded', function () {
+//     // ... (resto del código dentro de DOMContentLoaded si existe) ...
+//     if ('scrollRestoration' in history) {
+//         history.scrollRestoration = 'manual';
+//     }
+//     // Llevamos la ventana al punto (0, 0) que es el inicio.
+//     window.scrollTo(0, 0);
+
+//     const nextLessonButton = document.getElementById('next-lesson-btn');
+//     const loadingOverlay = document.getElementById('loading-overlay');
+
+//     if (nextLessonButton) {
+//         nextLessonButton.addEventListener('click', async (event) => {
+//             // Prevenimos el comportamiento por defecto del enlace
+//             event.preventDefault();
+
+//             // 1. Mostramos la pantalla de carga    
+//             if (loadingOverlay) {
+//                 loadingOverlay.style.display = 'flex';
+//             }
+
+//             try {
+//                 // 2. Llamamos al script PHP para actualizar el nivel
+//                 const response = await fetch('../php/update_progress.php', {
+//                     method: 'POST'
+//                 });
+
+//                 const result = await response.json();
+
+//                 // 3. Esperamos 3 segundos para que el usuario vea la animación
+//                 setTimeout(() => {
+//                     if (result.success) {
+//                         // 4. Si todo fue bien, recargamos la página para mostrar el nuevo nivel
+//                         location.reload();
+//                     } else {
+//                         // Si hay un error (ej. ya no hay más niveles), lo mostramos
+//                         if (loadingOverlay) {
+//                             loadingOverlay.style.display = 'none';
+//                         }
+//                         alert(result.message || 'No se pudo pasar al siguiente nivel.');
+//                         // Si ya no hay más niveles, el usuario verá la página de felicitaciones al recargar.
+//                         location.reload();
+//                     }
+//                 }, 3000); // 3000 milisegundos = 3 segundos
+
+//             } catch (error) {
+//                 console.error('Error al actualizar el progreso:', error);
+//                 // En caso de un error de red, ocultamos la carga y mostramos un mensaje
+//                 setTimeout(() => {
+//                     if (loadingOverlay) {
+//                         loadingOverlay.style.display = 'none';
+//                     }
+//                     alert('Ocurrió un error de red. Por favor, inténtalo de nuevo.');
+//                 }, 3000);
+//             }
+//         });
+//     }
+// });
+
+// --- LÓGICA PARA LOS BOTONES DE NAVEGACIÓN DE NIVEL ---
 document.addEventListener('DOMContentLoaded', function () {
-    // ... (resto del código dentro de DOMContentLoaded si existe) ...
+    // ... (código existente de la recarga de página al inicio) ...
     if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
     }
-    // Llevamos la ventana al punto (0, 0) que es el inicio.
     window.scrollTo(0, 0);
 
     const nextLessonButton = document.getElementById('next-lesson-btn');
+    const prevLessonButton = document.getElementById('prev-lesson-btn'); // Botón nuevo
     const loadingOverlay = document.getElementById('loading-overlay');
 
-    if (nextLessonButton) {
-        nextLessonButton.addEventListener('click', async (event) => {
-            // Prevenimos el comportamiento por defecto del enlace
-            event.preventDefault();
+    // Función para manejar la actualización de nivel
+    async function updateLevel(url, successMessage, errorMessage) {
+        if (loadingOverlay) loadingOverlay.style.display = 'flex';
 
-            // 1. Mostramos la pantalla de carga    
-            if (loadingOverlay) {
-                loadingOverlay.style.display = 'flex';
-            }
+        try {
+            const response = await fetch(url, { method: 'POST' });
+            const result = await response.json();
 
-            try {
-                // 2. Llamamos al script PHP para actualizar el nivel
-                const response = await fetch('../php/update_progress.php', {
-                    method: 'POST'
-                });
-
-                const result = await response.json();
-
-                // 3. Esperamos 3 segundos para que el usuario vea la animación
-                setTimeout(() => {
-                    if (result.success) {
-                        // 4. Si todo fue bien, recargamos la página para mostrar el nuevo nivel
-                        location.reload();
+            setTimeout(() => {
+                if (result.success) {
+                    location.reload();
+                } else {
+                    if (loadingOverlay) loadingOverlay.style.display = 'none';
+                    alert(result.message || errorMessage);
+                    if (result.message === 'Ya estás en el primer nivel.') {
+                        // No hacer nada si ya está en el primer nivel.
                     } else {
-                        // Si hay un error (ej. ya no hay más niveles), lo mostramos
-                        if (loadingOverlay) {
-                            loadingOverlay.style.display = 'none';
-                        }
-                        alert(result.message || 'No se pudo pasar al siguiente nivel.');
-                        // Si ya no hay más niveles, el usuario verá la página de felicitaciones al recargar.
-                        location.reload();
+                         location.reload();
                     }
-                }, 3000); // 3000 milisegundos = 3 segundos
+                }
+            }, 3000);
 
-            } catch (error) {
-                console.error('Error al actualizar el progreso:', error);
-                // En caso de un error de red, ocultamos la carga y mostramos un mensaje
-                setTimeout(() => {
-                    if (loadingOverlay) {
-                        loadingOverlay.style.display = 'none';
-                    }
-                    alert('Ocurrió un error de red. Por favor, inténtalo de nuevo.');
-                }, 3000);
-            }
+        } catch (error) {
+            console.error('Error en la navegación de nivel:', error);
+            setTimeout(() => {
+                if (loadingOverlay) loadingOverlay.style.display = 'none';
+                alert('Ocurrió un error de red. Por favor, inténtalo de nuevo.');
+            }, 3000);
+        }
+    }
+
+    // Evento para el botón "Siguiente"
+    if (nextLessonButton) {
+        nextLessonButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            updateLevel('../php/update_progress.php', 'Avanzando al siguiente nivel...', 'No se pudo pasar al siguiente nivel.');
+        });
+    }
+
+    // --- NUEVO CÓDIGO ---
+    // Evento para el botón "Anterior"
+    if (prevLessonButton) {
+        prevLessonButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            updateLevel('../php/go_back_progress.php', 'Volviendo al nivel anterior...', 'No se pudo retroceder al nivel anterior.');
         });
     }
 });

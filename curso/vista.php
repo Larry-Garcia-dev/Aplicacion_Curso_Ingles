@@ -138,7 +138,19 @@ include '../views/header.php';
                     <?php endforeach; ?>
                 </div>
 
-                <a href="#" id="next-lesson-btn" class="btn btn-lg" style="background: white; color: var(--primary);">Siguiente lección</a>
+                <!-- <a href="#" id="next-lesson-btn" class="btn btn-lg" style="background: white; color: var(--primary);">Siguiente lección</a> -->
+                <div class="navigation-buttons" style="display: flex; justify-content: center; gap: 1rem; margin-top: 2rem;">
+
+                    <?php
+                    // Solo muestra el botón "Anterior" si el nivel actual no es el primero
+                    if (isset($level_data['level_order']) && $level_data['level_order'] > 1):
+                    ?>
+                        <a href="#" id="prev-lesson-btn" class="btn btn-lg btn-primary">Lección Anterior</a>
+                    <?php endif; ?>
+
+                    <a href="#" id="next-lesson-btn" class="btn btn-lg btn-primary">Siguiente lección</a>
+
+                </div>
 
             </div>
         </section>
