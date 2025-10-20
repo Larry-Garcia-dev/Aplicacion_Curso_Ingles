@@ -813,7 +813,7 @@ body {
 
 .summary-card {
   /* Se corrigió 'important' por '!important' y se usó un color con transparencia */
-  background: white !important; 
+  background: white; 
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px); /* Para compatibilidad con Safari */
   border-radius: 1.5rem;
