@@ -812,7 +812,7 @@ body {
 }
 
 .summary-card {
-    background: rgb(255, 252, 252);
+    background: white;
     backdrop-filter: blur(8px);
     border-radius: 1.5rem;
     padding: 1.5rem;
