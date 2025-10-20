@@ -812,12 +812,14 @@ body {
 }
 
 .summary-card {
-    background: white;
-    backdrop-filter: blur(8px);
-    border-radius: 1.5rem;
-    padding: 1.5rem;
-    text-align: center;
-    transition: background 0.3s ease;
+  /* Se corrigió 'important' por '!important' y se usó un color con transparencia */
+  background: white !important; 
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); /* Para compatibilidad con Safari */
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  text-align: center;
+  transition: background 0.3s ease;
 }
 
 .summary-card:hover {
