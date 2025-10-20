@@ -281,6 +281,9 @@
             </div>
         </div>
     </div>
+    <a href="https://wa.me/573203787804" class="whatsapp-flotante" target="_blank" rel="noopener noreferrer">
+    <i class="fab fa-whatsapp"></i>
+</a>
     <script src="js/recovery.js"></script>
 
     <script src="js/app.js"></script>

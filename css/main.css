@@ -812,7 +812,7 @@ body {
 }
 
 .summary-card {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgb(255, 252, 252);
     backdrop-filter: blur(8px);
     border-radius: 1.5rem;
     padding: 1.5rem;
@@ -944,3 +944,89 @@ body {
 }
 
 /* Lápiz mediano */
+
+/* Estilos para los resultados de los ejercicios */
+.exercise-result {
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    margin-top: 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.exercise-result.correct {
+    background-color: #D1FAE5; /* Verde claro */
+    color: #065F46; /* Verde oscuro */
+}
+
+.exercise-result.incorrect {
+    background-color: #FEE2E2; /* Rojo claro */
+    color: #991B1B; /* Rojo oscuro */
+}
+
+/* Animación de vibración para respuestas incorrectas */
+@keyframes shake-horizontal {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+    20%, 40%, 60%, 80% { transform: translateX(8px); }
+}
+
+.shake-error {
+    animation: shake-horizontal 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* Estilo para botones y inputs deshabilitados después de acertar */
+.exercise-card .option-btn:disabled,
+.exercise-card .exercise-input:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.exercise-card .option-btn.selected:disabled {
+    background: var(--primary-dark);
+    opacity: 1;
+}
+
+
+/* --- ESTILOS PARA EL BOTÓN FLOTANTE DE WHATSAPP (CON FONT AWESOME) --- */
+
+.whatsapp-flotante {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    width: 60px;
+    height: 60px;
+    background-color: #25D366;
+    color: #FFF;
+    border-radius: 50%;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.whatsapp-flotante i {
+    font-size: 32px; /* Controla el tamaño del ícono */
+}
+
+.whatsapp-flotante:hover {
+    transform: scale(1.1);
+    background-color: #128C7E;
+}
+
+/* --- AJUSTES PARA MÓVILES --- */
+@media (max-width: 768px) {
+    .whatsapp-flotante {
+        width: 55px;
+        height: 55px;
+        bottom: 20px;
+        left: 20px;
+    }
+
+    .whatsapp-flotante i {
+        font-size: 28px;
+    }
+}

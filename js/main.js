@@ -1,9 +1,191 @@
-// js/main.js (Versión Unificada con Animaciones y Funcionalidad Dinámica)
+// js/main.js (Versión mejorada y unificada)
 
-// --- FUNCIONES DE AYUDA GLOBALES ---
+document.addEventListener('DOMContentLoaded', function () {
+
+    // --- CONFIGURACIÓN INICIAL ---
+    const nextLessonButton = document.getElementById('next-lesson-btn');
+    const prevLessonButton = document.getElementById('prev-lesson-btn');
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const exercisesGrid = document.querySelector('.exercises-grid');
+
+    // Conjunto para almacenar los IDs de los ejercicios completados correctamente
+    const completedExercises = new Set();
+    // Obtenemos el número total de ejercicios en la página
+    const totalExercises = exercisesGrid ? exercisesGrid.children.length : 0;
+
+    // Hacemos que la página siempre inicie desde arriba
+    if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+
+    // --- LÓGICA DE EJERCICIOS ---
+
+    /**
+     * Revisa si todos los ejercicios han sido completados y activa el botón para avanzar.
+     */
+    function checkCompletion() {
+        // Comprueba si el número de ejercicios únicos completados es igual al total
+        if (nextLessonButton && completedExercises.size >= totalExercises && totalExercises > 0) {
+            nextLessonButton.classList.remove('disabled');
+            nextLessonButton.style.pointerEvents = 'auto';
+            nextLessonButton.style.opacity = '1';
+            nextLessonButton.textContent = '¡Lección Completada! Siguiente →';
+
+            // Opcional: Muestra una alerta o un mensaje de felicitación
+            // alert('¡Felicidades! Has completado todos los ejercicios. Ya puedes avanzar.');
+
+            // Mueve la vista suavemente hacia el botón para que el usuario lo note
+            nextLessonButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    /**
+     * Procesa la verificación de la respuesta de un ejercicio.
+     * @param {HTMLElement} verifyButton - El botón "Verificar" que fue presionado.
+     */
+    function verifyExercise(verifyButton) {
+        const card = verifyButton.closest('.exercise-card');
+        const correctAnswer = verifyButton.dataset.correctAnswer.toLowerCase().trim();
+        const resultDiv = card.querySelector('.exercise-result');
+        let userAnswer = '';
+
+        const input = card.querySelector('.exercise-input');
+        const selectedOption = card.querySelector('.option-btn.selected');
+
+        if (input) {
+            userAnswer = input.value.toLowerCase().trim();
+        } else if (selectedOption) {
+            userAnswer = selectedOption.textContent.toLowerCase().trim();
+        } else {
+            alert('Por favor, selecciona o escribe una respuesta antes de verificar.');
+            return;
+        }
+
+        resultDiv.classList.remove('hidden');
+        if (userAnswer === correctAnswer) {
+            resultDiv.textContent = '¡Correcto! 🎉';
+            resultDiv.className = 'exercise-result correct'; // Clase para estilo verde
+
+            // Agrega el ID del ejercicio al conjunto de completados
+            completedExercises.add(card.id);
+
+            // Desactiva los botones y el input para evitar cambios
+            verifyButton.disabled = true;
+            if (input) input.disabled = true;
+            card.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
+
+
+            // Revisa si ya se completaron todos los ejercicios
+            checkCompletion();
+        } else {
+            resultDiv.textContent = 'Incorrecto. ¡Inténtalo de nuevo!';
+            resultDiv.className = 'exercise-result incorrect'; // Clase para estilo rojo
+
+            // Animación de vibración para la tarjeta incorrecta
+            card.classList.add('shake-error');
+            setTimeout(() => card.classList.remove('shake-error'), 500);
+        }
+    }
+
+    // --- MANEJO DE EVENTOS ---
+
+    // Listener central para todos los clics en la página
+    document.body.addEventListener('click', function (event) {
+        const target = event.target;
+
+        // Clic en el botón de verificar ejercicio
+        const verifyButton = target.closest('.verify-btn');
+        if (verifyButton) {
+            verifyExercise(verifyButton);
+            return; // Detiene la ejecución para no interferir con otros listeners
+        }
+
+        // Clic en un botón de opción de ejercicio
+        const optionButton = target.closest('.option-btn');
+        if (optionButton) {
+            // Permite que solo un botón por ejercicio esté seleccionado
+            optionButton.parentElement.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
+            optionButton.classList.add('selected');
+            return;
+        }
+
+        // Clic en el contenedor de video para reproducir
+        const videoContainer = target.closest('.videoContainer[data-video-url]');
+        if (videoContainer && !videoContainer.querySelector('iframe')) {
+            playYouTubeVideo(videoContainer);
+            return;
+        }
+    });
+
+    // --- LÓGICA DE NAVEGACIÓN ENTRE NIVELES ---
+
+    /**
+     * Maneja la llamada a la API para cambiar de nivel (avanzar o retroceder).
+     * @param {string} url - La URL del script PHP a llamar.
+     * @param {string} errorMessage - Mensaje de error a mostrar si falla.
+     */
+    async function updateLevel(url, errorMessage) {
+        if (loadingOverlay) loadingOverlay.style.display = 'flex';
+
+        try {
+            const response = await fetch(url, { method: 'POST' });
+            const result = await response.json();
+
+            // Esperamos 2 segundos para que la transición sea suave
+            setTimeout(() => {
+                if (result.success) {
+                    location.reload(); // Recarga la página para mostrar el nuevo nivel
+                } else {
+                    if (loadingOverlay) loadingOverlay.style.display = 'none';
+                    alert(result.message || errorMessage);
+                    if (result.message === 'Ya estás en el primer nivel.') {
+                        // No hace nada si ya está en el primer nivel.
+                    } else {
+                         location.reload();
+                    }
+                }
+            }, 2000);
+
+        } catch (error) {
+            console.error('Error en la navegación de nivel:', error);
+            setTimeout(() => {
+                if (loadingOverlay) loadingOverlay.style.display = 'none';
+                alert('Ocurrió un error de red. Por favor, inténtalo de nuevo.');
+            }, 2000);
+        }
+    }
+
+    // Evento para el botón "Siguiente Lección"
+    if (nextLessonButton) {
+        nextLessonButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            // Evita el avance si el botón sigue deshabilitado
+            if (nextLessonButton.classList.contains('disabled')) {
+                alert('Debes completar correctamente todos los ejercicios para poder avanzar.');
+                return;
+            }
+            updateLevel('../php/update_progress.php', 'No se pudo pasar al siguiente nivel.');
+        });
+    }
+
+    // Evento para el botón "Lección Anterior"
+    if (prevLessonButton) {
+        prevLessonButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            updateLevel('../php/go_back_progress.php', 'No se pudo retroceder al nivel anterior.');
+        });
+    }
+
+});
+
+
+// --- FUNCIONES AUXILIARES ---
 
 /**
  * Extrae el ID de un video de YouTube desde su URL.
+ * @param {string} url - La URL del video de YouTube.
+ * @returns {string|null} - El ID del video o null si no se encuentra.
  */
 function getYouTubeID(url) {
     if (!url) return null;
@@ -13,307 +195,38 @@ function getYouTubeID(url) {
 }
 
 /**
- * Lee texto en voz alta usando la API del navegador.
+ * Carga y reproduce un video de YouTube en el contenedor especificado.
+ * @param {HTMLElement} container - El div que contiene la miniatura del video.
+ */
+function playYouTubeVideo(container) {
+    const videoUrl = container.dataset.videoUrl;
+    const videoId = getYouTubeID(videoUrl);
+
+    if (videoId) {
+        const iframe = document.createElement('iframe');
+        iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&mute=0`);
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+        iframe.setAttribute('allowfullscreen', '');
+        container.innerHTML = ''; // Limpia el contenedor (quita miniatura y botón play)
+        container.appendChild(iframe);
+    } else {
+        alert('La URL del video no es válida o no es de YouTube.');
+    }
+}
+
+/**
+ * Lee un texto en voz alta usando la API de Síntesis de Voz del navegador.
+ * @param {string} text - El texto a ser leído.
  */
 function speakText(text) {
     if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
+        window.speechSynthesis.cancel(); // Detiene cualquier locución anterior
         const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'en-US';
-        utterance.rate = 0.4;
+        utterance.lang = 'en-US'; // Asegura que se use la voz en inglés
+        utterance.rate = 0.4; // Reduce la velocidad para mayor claridad
         window.speechSynthesis.speak(utterance);
     } else {
-        alert("Tu navegador no soporta la síntesis de voz.");
+        alert("Tu navegador no soporta la funcionalidad de audio.");
     }
 }
-
-/**
- * Actualiza la interfaz de un carrusel de video con los datos de una lección.
- */
-function updateCarouselUI(carouselElement, lesson) {
-    const videoTitle = carouselElement.querySelector('.video-title');
-    const videoContainer = carouselElement.querySelector('.videoContainer');
-
-    videoTitle.textContent = lesson.title;
-
-    const thumbnail = document.createElement('img');
-    thumbnail.className = 'videoThumbnail';
-    const videoId = getYouTubeID(lesson.video_url || '');
-    thumbnail.src = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : '../img/videos.jpg';
-    thumbnail.alt = 'Video thumbnail';
-
-    const playBtn = document.createElement('button');
-    playBtn.className = 'play-button';
-    playBtn.innerHTML = '▶';
-
-    videoContainer.innerHTML = '';
-    videoContainer.append(thumbnail, playBtn);
-    videoContainer.dataset.videoUrl = lesson.video_url || '';
-}
-
-
-// --- INICIALIZACIÓN DE ANIMACIONES Y EFECTOS ---
-
-/**
- * Activa animaciones en las secciones cuando aparecen en pantalla.
- */
-function initializeIntersectionObserver() {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-fade-in'); // Usaremos una animación más sutil
-            }
-        });
-    }, { threshold: 0.1 });
-
-    const sections = document.querySelectorAll('.section, .hero');
-    sections.forEach(section => observer.observe(section));
-}
-
-/**
- * Mueve las formas flotantes del fondo según la posición del mouse.
- */
-function initializeMouseMovement() {
-    document.addEventListener('mousemove', (e) => {
-        const shapes = document.querySelectorAll('.floating-shape');
-        shapes.forEach((shape, index) => {
-            const speed = (index + 1) * 0.005;
-            const deltaX = (e.clientX - window.innerWidth / 2) * speed;
-            const deltaY = (e.clientY - window.innerHeight / 2) * speed;
-            shape.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-        });
-    });
-}
-
-/**
- * Habilita el desplazamiento suave para los enlaces de anclaje (#).
- */
-function initializeSmoothScrolling() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-}
-
-
-// --- LÓGICA PRINCIPAL DE LA APLICACIÓN ---
-
-document.addEventListener('DOMContentLoaded', function () {
-    // 1. Inicializar todos los efectos visuales y animaciones
-    initializeIntersectionObserver();
-    initializeMouseMovement();
-    initializeSmoothScrolling();
-
-    // 2. Configurar todos los eventos interactivos para el contenido dinámico
-    document.addEventListener('click', function (event) {
-
-        // Clic en el contenedor de video para reproducir
-        const videoContainer = event.target.closest('.videoContainer');
-        if (videoContainer) {
-            const videoUrl = videoContainer.dataset.videoUrl;
-            if (!videoUrl) {
-                alert('No hay una URL de video definida para esta lección.');
-                return;
-            }
-            const videoId = getYouTubeID(videoUrl);
-            if (videoId) {
-                const iframe = document.createElement('iframe');
-                iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&mute=1`;
-                iframe.frameBorder = '0';
-                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-                iframe.allowFullscreen = true;
-                videoContainer.innerHTML = '';
-                videoContainer.appendChild(iframe);
-            } else {
-                alert('La URL del video no es válida o no es de YouTube.');
-            }
-        }
-
-        // Clic en un botón de opción de ejercicio
-        const optionButton = event.target.closest('.option-btn');
-        if (optionButton) {
-            optionButton.parentElement.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
-            optionButton.classList.add('selected');
-        }
-
-        // Clic en el botón de verificar ejercicio
-        const verifyButton = event.target.closest('.verify-btn');
-        if (verifyButton) {
-            const card = verifyButton.closest('.exercise-card');
-            const correctAnswer = verifyButton.dataset.correctAnswer.toLowerCase().trim();
-            const resultDiv = card.querySelector('.exercise-result');
-            let userAnswer = '';
-            const input = card.querySelector('.exercise-input');
-            const selectedOption = card.querySelector('.option-btn.selected');
-
-            if (input) userAnswer = input.value.toLowerCase().trim();
-            else if (selectedOption) userAnswer = selectedOption.textContent.toLowerCase().trim();
-            else {
-                alert('Por favor, selecciona una opción o escribe una respuesta.');
-                return;
-            }
-
-            resultDiv.classList.remove('hidden');
-            if (userAnswer === correctAnswer) {
-                resultDiv.textContent = '¡Correcto! 🎉';
-                resultDiv.style.color = 'green';
-            } else {
-                resultDiv.textContent = 'Intenta de nuevo.';
-                resultDiv.style.color = 'red';
-            }
-        }
-
-        // Clic en los botones de navegación del carrusel
-        const prevBtn = event.target.closest('.prevVideo');
-        const nextBtn = event.target.closest('.nextVideo');
-        if (prevBtn || nextBtn) {
-            const carousel = (prevBtn || nextBtn).closest('.video-carousel');
-            const levelId = carousel.dataset.levelId;
-            const levelData = courseData.find(level => level.id == levelId);
-            if (!levelData || !levelData.lessons.length) return;
-
-            const currentTitle = carousel.querySelector('.video-title').textContent;
-            let currentLessonIndex = levelData.lessons.findIndex(l => l.title === currentTitle);
-            if (currentLessonIndex === -1) currentLessonIndex = 0;
-
-            if (nextBtn) currentLessonIndex = (currentLessonIndex + 1) % levelData.lessons.length;
-            if (prevBtn) currentLessonIndex = (currentLessonIndex - 1 + levelData.lessons.length) % levelData.lessons.length;
-
-            updateCarouselUI(carousel, levelData.lessons[currentLessonIndex]);
-        }
-    });
-});
-
-// ... (todo el código existente de main.js) ...
-
-
-
-
-// --- LÓGICA PARA EL BOTÓN "SIGUIENTE LECCIÓN" ---
-// document.addEventListener('DOMContentLoaded', function () {
-//     // ... (resto del código dentro de DOMContentLoaded si existe) ...
-//     if ('scrollRestoration' in history) {
-//         history.scrollRestoration = 'manual';
-//     }
-//     // Llevamos la ventana al punto (0, 0) que es el inicio.
-//     window.scrollTo(0, 0);
-
-//     const nextLessonButton = document.getElementById('next-lesson-btn');
-//     const loadingOverlay = document.getElementById('loading-overlay');
-
-//     if (nextLessonButton) {
-//         nextLessonButton.addEventListener('click', async (event) => {
-//             // Prevenimos el comportamiento por defecto del enlace
-//             event.preventDefault();
-
-//             // 1. Mostramos la pantalla de carga    
-//             if (loadingOverlay) {
-//                 loadingOverlay.style.display = 'flex';
-//             }
-
-//             try {
-//                 // 2. Llamamos al script PHP para actualizar el nivel
-//                 const response = await fetch('../php/update_progress.php', {
-//                     method: 'POST'
-//                 });
-
-//                 const result = await response.json();
-
-//                 // 3. Esperamos 3 segundos para que el usuario vea la animación
-//                 setTimeout(() => {
-//                     if (result.success) {
-//                         // 4. Si todo fue bien, recargamos la página para mostrar el nuevo nivel
-//                         location.reload();
-//                     } else {
-//                         // Si hay un error (ej. ya no hay más niveles), lo mostramos
-//                         if (loadingOverlay) {
-//                             loadingOverlay.style.display = 'none';
-//                         }
-//                         alert(result.message || 'No se pudo pasar al siguiente nivel.');
-//                         // Si ya no hay más niveles, el usuario verá la página de felicitaciones al recargar.
-//                         location.reload();
-//                     }
-//                 }, 3000); // 3000 milisegundos = 3 segundos
-
-//             } catch (error) {
-//                 console.error('Error al actualizar el progreso:', error);
-//                 // En caso de un error de red, ocultamos la carga y mostramos un mensaje
-//                 setTimeout(() => {
-//                     if (loadingOverlay) {
-//                         loadingOverlay.style.display = 'none';
-//                     }
-//                     alert('Ocurrió un error de red. Por favor, inténtalo de nuevo.');
-//                 }, 3000);
-//             }
-//         });
-//     }
-// });
-
-// --- LÓGICA PARA LOS BOTONES DE NAVEGACIÓN DE NIVEL ---
-document.addEventListener('DOMContentLoaded', function () {
-    // ... (código existente de la recarga de página al inicio) ...
-    if ('scrollRestoration' in history) {
-        history.scrollRestoration = 'manual';
-    }
-    window.scrollTo(0, 0);
-
-    const nextLessonButton = document.getElementById('next-lesson-btn');
-    const prevLessonButton = document.getElementById('prev-lesson-btn'); // Botón nuevo
-    const loadingOverlay = document.getElementById('loading-overlay');
-
-    // Función para manejar la actualización de nivel
-    async function updateLevel(url, successMessage, errorMessage) {
-        if (loadingOverlay) loadingOverlay.style.display = 'flex';
-
-        try {
-            const response = await fetch(url, { method: 'POST' });
-            const result = await response.json();
-
-            setTimeout(() => {
-                if (result.success) {
-                    location.reload();
-                } else {
-                    if (loadingOverlay) loadingOverlay.style.display = 'none';
-                    alert(result.message || errorMessage);
-                    if (result.message === 'Ya estás en el primer nivel.') {
-                        // No hacer nada si ya está en el primer nivel.
-                    } else {
-                         location.reload();
-                    }
-                }
-            }, 3000);
-
-        } catch (error) {
-            console.error('Error en la navegación de nivel:', error);
-            setTimeout(() => {
-                if (loadingOverlay) loadingOverlay.style.display = 'none';
-                alert('Ocurrió un error de red. Por favor, inténtalo de nuevo.');
-            }, 3000);
-        }
-    }
-
-    // Evento para el botón "Siguiente"
-    if (nextLessonButton) {
-        nextLessonButton.addEventListener('click', (event) => {
-            event.preventDefault();
-            updateLevel('../php/update_progress.php', 'Avanzando al siguiente nivel...', 'No se pudo pasar al siguiente nivel.');
-        });
-    }
-
-    // --- NUEVO CÓDIGO ---
-    // Evento para el botón "Anterior"
-    if (prevLessonButton) {
-        prevLessonButton.addEventListener('click', (event) => {
-            event.preventDefault();
-            updateLevel('../php/go_back_progress.php', 'Volviendo al nivel anterior...', 'No se pudo retroceder al nivel anterior.');
-        });
-    }
-});

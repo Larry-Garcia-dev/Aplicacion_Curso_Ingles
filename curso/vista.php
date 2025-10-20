@@ -21,9 +21,9 @@ include '../views/header.php';
         </div>
         <div class="nav-links">
             <span class="welcome-message">¡Hola, <?php echo htmlspecialchars($_SESSION['user_name']); ?>!</span>
-            <a href="https://wa.me/573203787804" class="logout-btn">
+            <!-- <a href="https://wa.me/573203787804" class="logout-btn">
                 <span class="logout-icon">💬</span> Volver al chat
-            </a>
+            </a> -->
             <a href="../php/logout.php" class="logout-btn">
                 <span class="logout-icon">🚪</span> Cerrar Sesión
             </a>
@@ -94,6 +94,7 @@ include '../views/header.php';
                                 <button class="audio-btn" onclick="speakText('<?php echo addslashes($exercise['correct_answer']); ?>')">
                                     <span>🔊</span> Escuchar
                                 </button>
+                                <span>Recuerda los signos de puntuacion.</span>
                             <?php endif; ?>
 
                             <?php if ($exercise['exercise_type'] === 'choose_word' || $exercise['exercise_type'] === 'complete_sentence'): ?>
@@ -131,27 +132,34 @@ include '../views/header.php';
                 <div class="summary-grid">
                     <?php foreach ($summary_points as $point): ?>
                         <div class="summary-card">
-                            <div class="emoji">🗣️</div>
-                            <h3><?php echo htmlspecialchars_decode($point['title'] ?? ''); ?></h3>
-                            <p><?php echo htmlspecialchars_decode($point['desc'] ?? ''); ?></p>
+                            <div class="emoji">👾</div>
+                            <h3 style="color: black;"><?php echo htmlspecialchars_decode($point['title'] ?? ''); ?></h3>
+                            <p style="color: black;"><?php echo htmlspecialchars_decode($point['desc'] ?? ''); ?></p>
                         </div>
                     <?php endforeach; ?>
                 </div>
 
                 <!-- <a href="#" id="next-lesson-btn" class="btn btn-lg" style="background: white; color: var(--primary);">Siguiente lección</a> -->
-                <div class="navigation-buttons" style="display: flex; justify-content: center; gap: 1rem; margin-top: 2rem;">
+               <div class="navigation-buttons" style="display: flex; justify-content: center; gap: 1rem; margin-top: 2rem;">
 
                     <?php
                     // Solo muestra el botón "Anterior" si el nivel actual no es el primero
                     if (isset($level_data['level_order']) && $level_data['level_order'] > 1):
                     ?>
-                        <a href="#" id="prev-lesson-btn" class="btn btn-lg btn-primary">Lección Anterior</a>
+                        <a href="#" id="prev-lesson-btn" class="btn btn-lg btn-primary">← Lección Anterior</a>
                     <?php endif; ?>
 
-                    <a href="#" id="next-lesson-btn" class="btn btn-lg btn-primary">Siguiente lección</a>
-
+                    <?php
+                    // Verifica si hay ejercicios en la lección para decidir el estado del botón
+                    $hasExercises = !empty($level_data['lessons'][0]['exercises']);
+                    // Si no hay ejercicios, el botón está habilitado por defecto. Si hay, empieza deshabilitado.
+                    $nextButtonClass = $hasExercises ? 'btn-primary disabled' : 'btn-primary';
+                    $nextButtonStyle = $hasExercises ? 'pointer-events: none; opacity: 0.6;' : '';
+                    ?>
+                    <a href="#" id="next-lesson-btn" class="btn btn-lg <?php echo $nextButtonClass; ?>" style="<?php echo $nextButtonStyle; ?>">
+                        Siguiente lección
+                    </a>
                 </div>
-
             </div>
         </section>
     <?php endif; ?>
@@ -166,6 +174,10 @@ include '../views/header.php';
     <div class="spinner" style="border: 4px solid rgba(255,255,255,.3); border-top-color: white; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite;"></div>
     <p style="margin-top: 20px; font-size: 1.5rem; font-weight: 500;">Actualizando nivel...</p>
 </div>
+<a href="https://wa.me/573203787804" class="whatsapp-flotante" target="_blank" rel="noopener noreferrer">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
 
 <style>
     @keyframes spin {
