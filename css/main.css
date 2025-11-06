@@ -1032,3 +1032,92 @@ body {
         font-size: 28px;
     }
 }
+
+/* --- FIN ESTILOS PARA EL BOTÓN FLOTANTE DE WHATSAPP --- */
+
+/* --- inicio de estilos para la ventana de pausa --- */
+#pause-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        z-index: 2000;
+        padding: 2rem;
+        box-sizing: border-box;
+    }
+    .pause-content {
+        background: var(--primary-dark, #7C3AED);
+        padding: 3rem;
+        border-radius: 1.5rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .pause-content .spinner {
+        border: 4px solid rgba(255, 255, 255, .3);
+        border-top-color: white;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 2rem;
+    }
+    .pause-content h2 {
+        color: white;
+        margin-bottom: 1rem;
+    }
+    .pause-content p {
+        color: rgba(255, 255, 255, 0.9);
+        max-width: 400px;
+        margin-bottom: 2rem;
+    }
+    #refresh-pause-btn {
+        background: #E100FF;
+        color: var(--primary-dark, #7C3AED);
+        font-weight: bold;
+    }
+    #refresh-status {
+        color: rgba(255, 255, 255, 0.7);
+        min-height: 1.2rem;
+    }
+
+
+    /*fin de estilos para la ventana de pausa */
+
+    /* --- Estilo para el botón de WhatsApp en Pausa --- */
+#pause-overlay .whatsapp-pause-btn {
+    display: inline-block;
+    
+    /* Esta línea le da el fondo VERDE */
+    background-color: #25D366; 
+
+    color: white !important; 
+    padding: 10px 18px;
+    border-radius: 25px;
+
+    /* Esta línea QUITA la línea de debajo (subrayado) */
+    text-decoration: none; 
+
+    font-weight: bold; 
+    margin: 0 5px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    font-size: 1rem;
+    vertical-align: middle;
+}
+
+#pause-overlay .whatsapp-pause-btn:hover {
+    background-color: #128C7E;
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+#pause-overlay .whatsapp-pause-btn .fab {
+    margin-right: 8px;
+}

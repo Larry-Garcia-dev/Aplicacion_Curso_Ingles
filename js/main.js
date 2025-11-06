@@ -7,6 +7,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const prevLessonButton = document.getElementById('prev-lesson-btn');
     const loadingOverlay = document.getElementById('loading-overlay');
     const exercisesGrid = document.querySelector('.exercises-grid');
+    // --- NUEVO: Elementos de Pausa ---
+    const pauseOverlay = document.getElementById('pause-overlay');
+    const refreshPauseButton = document.getElementById('refresh-pause-btn');
+    const refreshStatusText = document.getElementById('refresh-status');
+    // ---
 
     // Conjunto para almacenar los IDs de los ejercicios completados correctamente
     const completedExercises = new Set();
@@ -132,27 +137,32 @@ document.addEventListener('DOMContentLoaded', function () {
             const response = await fetch(url, { method: 'POST' });
             const result = await response.json();
 
-            // Esperamos 2 segundos para que la transición sea suave
-            setTimeout(() => {
-                if (result.success) {
-                    location.reload(); // Recarga la página para mostrar el nuevo nivel
-                } else {
-                    if (loadingOverlay) loadingOverlay.style.display = 'none';
+            // --- LÓGICA DE RESPUESTA MODIFICADA ---
+            if (result.success && result.message === 'pause_activated') {
+                // El backend activó la pausa.
+                if (loadingOverlay) loadingOverlay.style.display = 'none';
+                if (pauseOverlay) pauseOverlay.style.display = 'flex'; // Muestra la pantalla de pausa
+
+            } else if (result.success) {
+                // Avance normal, recarga la página
+                setTimeout(() => {
+                    location.reload();
+                }, 1000); // Pequeña espera para que se vea el spinner
+
+            } else {
+                // Error o ya está en el primer nivel (al retroceder)
+                if (loadingOverlay) loadingOverlay.style.display = 'none';
+                if (result.message !== 'Ya estás en el primer nivel.' && result.message !== 'Ya has alcanzado el último nivel.') {
                     alert(result.message || errorMessage);
-                    if (result.message === 'Ya estás en el primer nivel.') {
-                        // No hace nada si ya está en el primer nivel.
-                    } else {
-                         location.reload();
-                    }
                 }
-            }, 2000);
+                // Si es "Ya estás en el primer nivel" o "último nivel", simplemente no hace nada.
+            }
+            // --- FIN LÓGICA MODIFICADA ---
 
         } catch (error) {
             console.error('Error en la navegación de nivel:', error);
-            setTimeout(() => {
-                if (loadingOverlay) loadingOverlay.style.display = 'none';
-                alert('Ocurrió un error de red. Por favor, inténtalo de nuevo.');
-            }, 2000);
+            if (loadingOverlay) loadingOverlay.style.display = 'none';
+            alert('Ocurrió un error de red. Por favor, inténtalo de nuevo.');
         }
     }
 
@@ -174,6 +184,34 @@ document.addEventListener('DOMContentLoaded', function () {
         prevLessonButton.addEventListener('click', (event) => {
             event.preventDefault();
             updateLevel('../php/go_back_progress.php', 'No se pudo retroceder al nivel anterior.');
+        });
+    }
+    // --- NUEVO: LÓGICA DEL BOTÓN ACTUALIZAR PAUSA ---
+    if (refreshPauseButton) {
+        refreshPauseButton.addEventListener('click', async () => {
+            if (refreshStatusText) refreshStatusText.textContent = 'Verificando...';
+            refreshPauseButton.disabled = true;
+
+            try {
+                // Llama al nuevo script PHP que verifica el estado
+                const response = await fetch('../php/check_status.php', { method: 'POST' });
+                const result = await response.json();
+
+                if (result.success && result.message === 'unpaused') {
+                    // ¡Desbloqueado!
+                    if (refreshStatusText) refreshStatusText.textContent = '¡Genial! Desbloqueado. Cargando...';
+                    setTimeout(() => {
+                        location.reload(); // Recarga la página para ver el nuevo nivel
+                    }, 1500);
+                } else {
+                    // Sigue pausado
+                    if (refreshStatusText) refreshStatusText.textContent = 'Aún debes completar el módulo en WhatsApp.';
+                    refreshPauseButton.disabled = false;
+                }
+            } catch (error) {
+                if (refreshStatusText) refreshStatusText.textContent = 'Error de red. Intenta de nuevo.';
+                refreshPauseButton.disabled = false;
+            }
         });
     }
 

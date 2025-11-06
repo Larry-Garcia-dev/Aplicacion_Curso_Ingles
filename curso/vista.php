@@ -140,7 +140,7 @@ include '../views/header.php';
                 </div>
 
                 <!-- <a href="#" id="next-lesson-btn" class="btn btn-lg" style="background: white; color: var(--primary);">Siguiente lección</a> -->
-               <div class="navigation-buttons" style="display: flex; justify-content: center; gap: 1rem; margin-top: 2rem;">
+                <div class="navigation-buttons" style="display: flex; justify-content: center; gap: 1rem; margin-top: 2rem;">
 
                     <?php
                     // Solo muestra el botón "Anterior" si el nivel actual no es el primero
@@ -194,4 +194,35 @@ include '../views/header.php';
 <script>
     const levelData = <?php echo isset($level_data) ? json_encode($level_data) : 'null'; ?>;
 </script>
+
+<div id="pause-overlay" style="display: none;">
+    <div class="pause-content">
+        <div class="spinner"></div>
+        <h2>¡Examen sorpresa!</h2>
+        <p>Completa el módulo interactivo en
+            <b>
+                <a href="https://wa.me/573203787804" class="whatsapp-pause-btn" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+            </b> para continuar.
+        </p>
+        <p>Una vez termines, presiona "Actualizar" para desbloquear el siguiente nivel.</p>
+        <button id="refresh-pause-btn" class="btn btn-primary btn-lg">Actualizar</button>
+        <div id="refresh-status" style="margin-top: 15px; font-size: 0.9rem;"></div>
+    </div>
+</div>
+<?php
+// NUEVO: Comprueba la variable $is_paused que pasamos desde index.php
+if (isset($is_paused) && $is_paused):
+?>
+    <script>
+        // Si PHP dice que el usuario está pausado, muestra el overlay al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            var overlay = document.getElementById('pause-overlay');
+            if (overlay) {
+                overlay.style.display = 'flex';
+            }
+        });
+    </script>
+<?php endif; ?>
 <script src="../js/main.js"></script>
