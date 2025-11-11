@@ -2,80 +2,51 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Certificado de Finalización - Hello Casabianca</title>
- <style>
-        /*
-         * --- INICIO DE CORRECCIONES PARA DOMPDF (Versión 3) ---
-         */
-
+    <title>Certificado de Finalización</title>
+    <style>
         @page {
-            margin: 0; /* Sin márgenes de impresión */
+            /* Dejamos un pequeño margen para que no se pegue a los bordes */
+            margin: 20px; 
         }
         
-        /* Quitamos CUALQUIER altura fija o 'vh' */
-        html, body {
-            width: 100%;
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
             margin: 0;
             padding: 0;
-            font-family: 'Georgia', 'Times New Roman', serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            box-sizing: border-box;
-        }
-
-        /* Mantenemos la estructura de "cajas" para el fondo */
-        body {
-            padding: 20px; /* El "borde" exterior degradado */
-        }
-        
-        .diploma-wrapper {
-            background: white; /* El "borde" blanco */
-            padding: 20px; /* Acolchado para el borde blanco */
-            box-sizing: border-box;
         }
         
         .diploma-container {
-            border: 15px solid #8B5CF6;
-            border-image: linear-gradient(45deg, #8B5CF6, #EC4899) 1;
-            background: linear-gradient(to bottom, #ffffff 0%, #faf5ff 100%);
-            position: relative; /* CRUCIAL para el footer y sello */
-            
-            /* * REDUCIMOS EL PADDING VERTICAL 
-             * Damos más padding abajo para que el footer y sello quepan
-            */
-            padding: 40px 80px 220px 80px; /* Arriba, Lados, Abajo, Lados */
+            border: 10px solid #8B5CF6;
+            /* Usamos un borde sólido simple, border-image es problemático */
+            padding: 40px 60px; /* Reducimos el padding */
+            position: relative; /* Lo mantenemos por las esquinas */
+            background: #ffffff;
         }
         
-        /* --- FIN DE CORRECCIONES PARA DOMPDF --- */
-
         .corner-decoration {
             position: absolute;
-            width: 80px;
-            height: 80px;
-            border: 3px solid #EC4899;
+            width: 60px; /* Reducido */
+            height: 60px; /* Reducido */
+            border: 2px solid #EC4899;
         }
         
-        .corner-decoration.top-left { top: 20px; left: 20px; border-right: none; border-bottom: none; }
-        .corner-decoration.top-right { top: 20px; right: 20px; border-left: none; border-bottom: none; }
-        .corner-decoration.bottom-left { bottom: 20px; left: 20px; border-right: none; border-top: none; }
-        .corner-decoration.bottom-right { bottom: 20px; right: 20px; border-left: none; border-top: none; }
+        .corner-decoration.top-left { top: 10px; left: 10px; border-right: none; border-bottom: none; }
+        .corner-decoration.top-right { top: 10px; right: 10px; border-left: none; border-bottom: none; }
+        .corner-decoration.bottom-left { bottom: 10px; left: 10px; border-right: none; border-top: none; }
+        .corner-decoration.bottom-right { bottom: 10px; right: 10px; border-left: none; border-top: none; }
         
         .logo {
             width: 100px; /* Reducido */
             height: 100px; /* Reducido */
-            margin: 0 auto 15px; /* Margen reducido */
+            margin: 0 auto 10px; /* Margen inferior muy reducido */
             display: block;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #8B5CF6;
         }
         
         .diploma-title {
-            font-size: 40px; /* Reducido */
+            font-size: 38px; /* Reducido */
             color: #8B5CF6;
-            margin-bottom: 5px; /* Reducido */
+            margin: 0 0 5px 0; /* Sin margen superior, poco inferior */
             text-transform: uppercase;
-            letter-spacing: 3px;
             font-weight: bold;
             text-align: center;
         }
@@ -83,7 +54,7 @@
         .subtitle {
             font-size: 18px; /* Reducido */
             color: #6B7280;
-            margin-bottom: 20px; /* Reducido */
+            margin: 0 0 20px 0; /* Margen reducido */
             text-align: center;
             font-style: italic;
         }
@@ -91,119 +62,111 @@
         .main-text {
             font-size: 20px; /* Reducido */
             color: #1F2937;
-            margin: 15px 0 10px; /* Reducido */
+            margin: 15px 0 10px 0; /* Márgenes reducidos */
             text-align: center;
         }
         
         .recipient-name {
-            font-size: 42px; /* Reducido */
+            font-size: 40px; /* Reducido */
             color: #EC4899;
-            margin: 15px 0; /* Reducido */
+            margin: 15px 0 15px 0; /* Márgenes reducidos */
             font-style: italic;
             font-weight: bold;
             text-align: center;
-            border-bottom: 3px solid #8B5CF6;
-            padding-bottom: 10px;
-            display: inline-block;
+            border-bottom: 2px solid #8B5CF6;
+            padding-bottom: 5px;
             width: 100%;
         }
         
         .course-info {
             font-size: 18px; /* Reducido */
             color: #1F2937;
-            margin: 20px 0; /* Reducido */
-            line-height: 1.6; /* Reducido */
+            margin: 25px 0 25px 0; /* Margen vertical reducido */
+            line-height: 1.5; /* Reducido */
             text-align: center;
         }
         
         .course-name {
             font-weight: bold;
             color: #8B5CF6;
-            font-size: 20px; /* Reducido */
+            font-size: 20px;
         }
-        
-        /* --- POSICIONAMIENTO ABSOLUTO PARA FOOTER Y SELLO --- */
-        
-        .footer {
-            text-align: center;
-            padding-top: 15px; /* Reducido */
-            border-top: 2px solid #E5E7EB;
 
-            /* Se posiciona al fondo del contenedor */
-            position: absolute;
-            bottom: 40px; /* 40px desde el borde del .diploma-container */
-            left: 80px;
-            right: 80px;
-        }
-        
-        .footer-text { font-size: 14px; color: #6B7280; }
-        .website { color: #8B5CF6; text-decoration: none; font-weight: bold; }
-        .date { font-size: 16px; color: #1F2937; margin-top: 10px; }
+        /* * --- CAMBIO IMPORTANTE ---
+         * Quitamos el posicionamiento absoluto del sello y el footer.
+         * Ahora son parte del flujo normal del documento.
+        */
         
         .seal {
-            width: 100px;
-            height: 100px;
+            width: 90px; /* Reducido */
+            height: 90px; /* Reducido */
             border-radius: 50%;
             background: linear-gradient(135deg, #8B5CF6, #EC4899);
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 5px solid white;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 4px solid white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
             
-            /* Posicionamiento absoluto */
-            position: absolute;
-            bottom: 110px; /* 110px desde el borde (encima del footer) */
-            left: 50%;
-            transform: translateX(-50%);
+            /* Centrado con márgenes */
+            margin: 20px auto 15px auto; /* Margen reducido */
         }
         
         .seal-text {
             color: white;
-            font-size: 12px;
+            font-size: 11px; /* Reducido */
             font-weight: bold;
             text-align: center;
             line-height: 1.2;
         }
+
+        .footer {
+            text-align: center;
+            margin-top: 15px; /* Margen reducido */
+            padding-top: 10px; /* Reducido */
+            border-top: 1px solid #E5E7EB;
+        }
+        
+        .footer-text { font-size: 14px; color: #6B7280; }
+        .website { color: #8B5CF6; text-decoration: none; font-weight: bold; }
+        .date { font-size: 16px; color: #1F2937; margin-top: 5px; }
+
     </style>
 </head>
 <body>
-    <div class="diploma-wrapper">
-        <div class="diploma-container">
-            <div class="corner-decoration top-left"></div>
-            <div class="corner-decoration top-right"></div>
-            <div class="corner-decoration bottom-left"></div>
-            <div class="corner-decoration bottom-right"></div>
-            
-            <img src="https://hellocasabianca.com/img/lodo4x4.jpg" alt="Logo Hello Casabianca" class="logo">
-            
-            <h1 class="diploma-title">Certificado</h1>
-            <p class="subtitle">de Finalización</p>
-            
-            <p class="main-text">Se otorga el presente certificado a:</p>
-            
-            <div class="recipient-name">{{NOMBRE_ALUMNO}}</div>
-            
-            <div class="course-info">
-                Por haber completado exitosamente el curso de Inglés
-                <br>
-                <span class="course-name">Hello Casabianca</span>
-                <br>
-                Demostrando dedicación, compromiso y excelencia académica
-            </div>
-            
-            <div class="footer">
-                <p class="date">Fecha de emisión: {{DIA}} de {{MES}} de {{ANIO}}</p>
-                <p class="footer-text">
-                    <a href="https://hellocasabianca.com/" class="website">https://hellocasabianca.com/</a>
-                </p>
-            </div>
-
-            <div class="seal">
-                <div class="seal-text">HELLO<br>CASABIANCA<br>✓</div>
-            </div>
-        </div>
+    <div class="diploma-container">
+        <div class="corner-decoration top-left"></div>
+        <div class="corner-decoration top-right"></div>
+        <div class="corner-decoration bottom-left"></div>
+        <div class="corner-decoration bottom-right"></div>
         
+        <img src="https://hellocasabianca.com/img/lodo4x4.jpg" alt="Logo Hello Casabianca" class="logo">
+        
+        <h1 class="diploma-title">Certificado</h1>
+        <p class="subtitle">de Finalización</p>
+        
+        <p class="main-text">Se otorga el presente certificado a:</p>
+        
+        <div class="recipient-name">{{NOMBRE_ALUMNO}}</div>
+        
+        <div class="course-info">
+            Por haber completado exitosamente el curso de Inglés
+            <br>
+            <span class="course-name">Hello Casabianca</span>
+            <br>
+            Demostrando dedicación, compromiso y excelencia académica
+        </div>
+    </div>
+
+    <div class="seal">
+        <div class="seal-text">HELLO<br>CASABIANCA<br>✓</div>
+    </div>
+    
+    <div class="footer">
+        <p class="date">Fecha de emisión: {{DIA}} de {{MES}} de {{ANIO}}</p>
+        <p class="footer-text">
+            <a href="https://hellocasabianca.com/" class="website">https://hellocasabianca.com/</a>
+        </p>
     </div>
 </body>
 </html>
