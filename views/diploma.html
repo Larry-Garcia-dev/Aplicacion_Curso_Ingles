@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificado de Finalización - Hello Casabianca</title>
+    <style>
+        @page {
+            margin: 0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .diploma-wrapper {
+            background: white;
+            width: 100%;
+            max-width: 1000px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .diploma-container {
+            border: 15px solid #8B5CF6;
+            border-image: linear-gradient(45deg, #8B5CF6, #EC4899) 1;
+            padding: 60px 80px;
+            position: relative;
+            background: linear-gradient(to bottom, #ffffff 0%, #faf5ff 100%);
+        }
+        
+        .corner-decoration {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border: 3px solid #EC4899;
+        }
+        
+        .corner-decoration.top-left {
+            top: 20px;
+            left: 20px;
+            border-right: none;
+            border-bottom: none;
+        }
+        
+        .corner-decoration.top-right {
+            top: 20px;
+            right: 20px;
+            border-left: none;
+            border-bottom: none;
+        }
+        
+        .corner-decoration.bottom-left {
+            bottom: 20px;
+            left: 20px;
+            border-right: none;
+            border-top: none;
+        }
+        
+        .corner-decoration.bottom-right {
+            bottom: 20px;
+            right: 20px;
+            border-left: none;
+            border-top: none;
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            display: block;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #8B5CF6;
+        }
+        
+        .diploma-title {
+            font-size: 48px;
+            color: #8B5CF6;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .subtitle {
+            font-size: 20px;
+            color: #6B7280;
+            margin-bottom: 40px;
+            text-align: center;
+            font-style: italic;
+        }
+        
+        .main-text {
+            font-size: 22px;
+            color: #1F2937;
+            margin: 30px 0 20px;
+            text-align: center;
+        }
+        
+        .recipient-name {
+            font-size: 48px;
+            color: #EC4899;
+            margin: 30px 0;
+            font-style: italic;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 3px solid #8B5CF6;
+            padding-bottom: 10px;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .course-info {
+            font-size: 20px;
+            color: #1F2937;
+            margin: 40px 0;
+            line-height: 1.8;
+            text-align: center;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            color: #8B5CF6;
+            font-size: 24px;
+        }
+        
+        .signature-section {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 80px;
+            padding-top: 20px;
+        }
+        
+        .signature {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .signature-line {
+            width: 250px;
+            height: 2px;
+            background-color: #1F2937;
+            margin: 0 auto 10px;
+        }
+        
+        .signature-name {
+            font-size: 16px;
+            color: #1F2937;
+            font-weight: bold;
+        }
+        
+        .signature-title {
+            font-size: 14px;
+            color: #6B7280;
+            font-style: italic;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #E5E7EB;
+        }
+        
+        .footer-text {
+            font-size: 14px;
+            color: #6B7280;
+        }
+        
+        .website {
+            color: #8B5CF6;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .date {
+            font-size: 16px;
+            color: #1F2937;
+            margin-top: 10px;
+        }
+        
+        .seal {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            top: -50px;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .seal-text {
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.2;
+        }
+    </style>
+</head>
+<body>
+    <div class="diploma-wrapper">
+        <div class="diploma-container">
+            <div class="corner-decoration top-left"></div>
+            <div class="corner-decoration top-right"></div>
+            <div class="corner-decoration bottom-left"></div>
+            <div class="corner-decoration bottom-right"></div>
+            
+            <img src="../img/lodo4x4.jpg" alt="Logo Hello Casabianca" class="logo">
+            
+            <h1 class="diploma-title">Certificado</h1>
+            <p class="subtitle">de Finalización</p>
+            
+            <p class="main-text">Se otorga el presente certificado a:</p>
+            
+            <div class="recipient-name">{{NOMBRE_ALUMNO}}</div>
+            
+            <div class="course-info">
+                Por haber completado exitosamente el curso de Inglés
+                <br>
+                <span class="course-name">Hello Casabianca</span>
+                <br>
+                Demostrando dedicación, compromiso y excelencia académica
+            </div>
+            
+            <div class="footer">
+                <p class="date">Fecha de emisión: {{DIA}} de {{MES}} de {{ANIO}}</p>
+                <p class="footer-text">
+                    <a href="https://hellocasabianca.com/" class="website">https://hellocasabianca.com/</a>
+                </p>
+            </div>
+        </div>
+        
+        <div class="seal">
+            <div class="seal-text">HELLO<br>CASABIANCA<br>✓</div>
+        </div>
+    </div>
+</body>
+</html>
