@@ -4,56 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificado de Finalización - Hello Casabianca</title>
-    <style>
+ <style>
         /*
-         * --- INICIO DE CORRECCIONES PARA DOMPDF ---
+         * --- INICIO DE CORRECCIONES PARA DOMPDF (Versión 3) ---
          */
 
         @page {
-            margin: 0; /* Mantiene la página sin márgenes de impresión */
+            margin: 0; /* Sin márgenes de impresión */
         }
         
-        /* Forzamos al HTML y al BODY a ocupar el 100% de la página PDF */
+        /* Quitamos CUALQUIER altura fija o 'vh' */
         html, body {
-            height: 100%;
             width: 100%;
             margin: 0;
             padding: 0;
-        }
-
-        body {
             font-family: 'Georgia', 'Times New Roman', serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            
-            /* Quitamos min-height, display:flex y otros estilos de centrado del body */
-            /* Estos estilos de padding se encargarán del margen exterior */
-            padding: 20px; 
-            box-sizing: border-box; /* Crucial: El padding se incluye en el 100% */
+            box-sizing: border-box;
+        }
+
+        /* Mantenemos la estructura de "cajas" para el fondo */
+        body {
+            padding: 20px; /* El "borde" exterior degradado */
         }
         
         .diploma-wrapper {
-            background: white;
-            width: 100%; /* Ocupa el 100% del body */
-            height: 100%; /* Ocupa el 100% del body */
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            box-sizing: border-box; /* Padding se incluye en el 100% */
+            background: white; /* El "borde" blanco */
+            padding: 20px; /* Acolchado para el borde blanco */
+            box-sizing: border-box;
         }
         
         .diploma-container {
             border: 15px solid #8B5CF6;
             border-image: linear-gradient(45deg, #8B5CF6, #EC4899) 1;
-            padding: 60px 80px;
-            position: relative; /* Mantenemos la posición relativa para el sello */
             background: linear-gradient(to bottom, #ffffff 0%, #faf5ff 100%);
+            position: relative; /* CRUCIAL para el footer y sello */
             
-            /* Forzamos al contenedor a ocupar todo el wrapper */
-            height: 100%;
-            box-sizing: border-box; /* Padding se incluye en el 100% */
+            /* * REDUCIMOS EL PADDING VERTICAL 
+             * Damos más padding abajo para que el footer y sello quepan
+            */
+            padding: 40px 80px 220px 80px; /* Arriba, Lados, Abajo, Lados */
         }
         
         /* --- FIN DE CORRECCIONES PARA DOMPDF --- */
-        
-        /* El resto de tus estilos permanecen (casi) iguales */
 
         .corner-decoration {
             position: absolute;
@@ -68,9 +61,9 @@
         .corner-decoration.bottom-right { bottom: 20px; right: 20px; border-left: none; border-top: none; }
         
         .logo {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 30px;
+            width: 100px; /* Reducido */
+            height: 100px; /* Reducido */
+            margin: 0 auto 15px; /* Margen reducido */
             display: block;
             border-radius: 50%;
             object-fit: cover;
@@ -78,9 +71,9 @@
         }
         
         .diploma-title {
-            font-size: 48px;
+            font-size: 40px; /* Reducido */
             color: #8B5CF6;
-            margin-bottom: 10px;
+            margin-bottom: 5px; /* Reducido */
             text-transform: uppercase;
             letter-spacing: 3px;
             font-weight: bold;
@@ -88,24 +81,24 @@
         }
         
         .subtitle {
-            font-size: 20px;
+            font-size: 18px; /* Reducido */
             color: #6B7280;
-            margin-bottom: 40px;
+            margin-bottom: 20px; /* Reducido */
             text-align: center;
             font-style: italic;
         }
         
         .main-text {
-            font-size: 22px;
+            font-size: 20px; /* Reducido */
             color: #1F2937;
-            margin: 30px 0 20px;
+            margin: 15px 0 10px; /* Reducido */
             text-align: center;
         }
         
         .recipient-name {
-            font-size: 48px;
+            font-size: 42px; /* Reducido */
             color: #EC4899;
-            margin: 30px 0;
+            margin: 15px 0; /* Reducido */
             font-style: italic;
             font-weight: bold;
             text-align: center;
@@ -116,28 +109,29 @@
         }
         
         .course-info {
-            font-size: 20px;
+            font-size: 18px; /* Reducido */
             color: #1F2937;
-            margin: 40px 0;
-            line-height: 1.8;
+            margin: 20px 0; /* Reducido */
+            line-height: 1.6; /* Reducido */
             text-align: center;
         }
         
         .course-name {
             font-weight: bold;
             color: #8B5CF6;
-            font-size: 24px;
+            font-size: 20px; /* Reducido */
         }
+        
+        /* --- POSICIONAMIENTO ABSOLUTO PARA FOOTER Y SELLO --- */
         
         .footer {
             text-align: center;
-            margin-top: 50px;
-            padding-top: 20px;
+            padding-top: 15px; /* Reducido */
             border-top: 2px solid #E5E7EB;
 
-            /* Corregimos el footer para que se posicione abajo */
+            /* Se posiciona al fondo del contenedor */
             position: absolute;
-            bottom: 60px; /* Ajusta este valor si es necesario */
+            bottom: 40px; /* 40px desde el borde del .diploma-container */
             left: 80px;
             right: 80px;
         }
@@ -146,11 +140,6 @@
         .website { color: #8B5CF6; text-decoration: none; font-weight: bold; }
         .date { font-size: 16px; color: #1F2937; margin-top: 10px; }
         
-        /*
-         * --- CORRECCIÓN DEL SELLO ---
-         * Lo posicionamos absolutamente para que no ocupe espacio
-         * y no empuje el contenido a una segunda página.
-         */
         .seal {
             width: 100px;
             height: 100px;
@@ -164,11 +153,9 @@
             
             /* Posicionamiento absoluto */
             position: absolute;
-            bottom: 150px; /* Lo subimos desde el borde inferior */
+            bottom: 110px; /* 110px desde el borde (encima del footer) */
             left: 50%;
-            transform: translateX(-50%); /* Lo centramos horizontalmente */
-            
-            /* Quitamos el 'top: -50px' que rompía el layout */
+            transform: translateX(-50%);
         }
         
         .seal-text {
