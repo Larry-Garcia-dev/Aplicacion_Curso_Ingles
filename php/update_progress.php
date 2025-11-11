@@ -18,7 +18,7 @@ if (!isset($_SESSION['user_id'])) {
 // --- NUEVA LÓGICA DE PAUSA ---
 // Define los niveles que activarán la pausa (justo ANTES de empezarlos)
 // El level_order 4 es el "cuarto nivel".
-$pause_levels = [5, 9, 13];
+$pause_levels = [5, 9, 12];
 // URL de tu webhook de WhatsApp (reemplaza esto)
 $whatsapp_webhook_url = 'https://n8n.magnificapec.com/webhook/33404621-35d4-477d-a562-f5743d0d37f6';
 

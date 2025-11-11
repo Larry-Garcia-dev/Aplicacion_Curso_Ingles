@@ -228,7 +228,7 @@
                 <form id="recovery-form-1" class="auth-form">
                     <div class="form-group">
                         <label for="recovery-phone">Tu número de teléfono</label>
-                        <input type="tel" id="recovery-phone" name="phone" placeholder="+1234567890" required>
+                            <input type="tel" id="recovery-phone" name="phone" value="57" required pattern="^57\d+$" title="El teléfono debe comenzar con 57 y solo puede contener números.">
                         <div class="error-message" id="recovery-phone-error"></div>
                     </div>
                     <button type="submit" class="submit-button">
