@@ -57,7 +57,7 @@ $dompdf = new Dompdf($options);
 // 9. Iniciar el bloque try...catch
 try {
     // 10. Cargar el template HTML (subiendo un nivel)
-    $htmlPath = __DIR__ . 'diploma_template.html';
+    $htmlPath = __DIR__ . '/diploma_template.html';
     if (!file_exists($htmlPath)) {
         throw new Exception("No se encontró el archivo diploma_template.html");
     }
